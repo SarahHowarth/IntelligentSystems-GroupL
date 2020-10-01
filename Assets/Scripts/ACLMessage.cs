@@ -69,30 +69,27 @@ public class ACLMessage : MonoBehaviour
     //validation for performatives 
     private bool checkPerformative(string candidPerform)
     {
+        //list with acceptable performatives
+        //this can obviously be extended
         string[] performatives = { "accept proposal", "agree", "request" };
         int i = 0;
-
-        //perfomative isn't in list by default
+        //assume that the performative is not in the list
         bool found = false;
 
-        if(candidPerform == null)
-        {
+        if (candidPerform == null)
             i = performatives.Length + 1;
-            candidPerform = candidPerform.ToLower();
-            
-            while(i < performative.Length && !found)
-            {
-                if(candidPerform.CompareTo(performatives[i]) == 0)
-                    found = true;
-
-                i++;
-            }
-            return found;
+        candidPerform = candidPerform.ToLower();
+        while (i < performatives.Length && !found)
+        {
+            if (candidPerform.CompareTo(performatives[i]) == 0)
+                found = true;
+            i++;
         }
+        return found;
     }
 }
 
-//does this need to be a MonoBehaviour 
+//Very simple, user defined exception
 class InvalidPerformativeException : System.Exception
 {
     public InvalidPerformativeException(string message) :
