@@ -41,6 +41,7 @@ public class WorldController : MonoBehaviour
         {
             return false;
         }
+        //TO DO: need to rebake navmesh first
         StartSimulation();
         return true;
     }
@@ -61,7 +62,7 @@ public class WorldController : MonoBehaviour
         //TO DO instantiate prefabs once added 
     }
 
-
+    
     //properties
     public GameObject GetDepot() { return depot; }
 
@@ -69,7 +70,7 @@ public class WorldController : MonoBehaviour
 
     public List<GameObject> GetDropPoints() { return dropPoints; }
 
-    //ui manager to call to set the packages and vehicles from ui for initialisation
+    ///ui manager to call to set the packages and vehicles from ui for initialisation
     public void SetPackagesToDeliver(int packages) 
     { 
         packagesToDeliver = packages;
@@ -90,7 +91,6 @@ public class WorldController : MonoBehaviour
     //will need to link to functions that update the simulation
     public void AddDropPoint() { }
     public void AddPackage() { }
-
     public void RebakeNavMesh() { }
 
 
