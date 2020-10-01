@@ -4,76 +4,98 @@ using UnityEngine;
 
 public class ACLMessage : MonoBehaviour
 {
+ 
     private string sender;
-    private string reciever;
+    private string receiver;
     private string performative;
     private string content;
-    private string aclMessasge; //readonly property
+    private readonly string aclMessage;
+
 
     public ACLMessage()
     {
-        aclMessasge = "";
+        aclMessage = "";
         sender = "";
-        reciever = "";
+        receiver = "";
         performative = "";
         content = "";
-
-
     }
 
-    public string Sender
+ public string Sender
     {
-        get { return sender; }
-        set { sender = value; }
-        //if set doesn't work, try 'set {sender = value;}'
+        get
+        {
+            return sender;
+        }
+        set
+        {
+            sender = value;
+        }
     }
 
-    public string Reciever
+    public string Reveiver
     {
-        get { return reciever; }
-        set { reciever = value; }
+        get
+        {
+            return receiver;
+        }
+        set
+        {
+            receiver = value;
+        }
     }
+
     public string Performative
     {
-        get { return performative; }
-        set 
+        get
+        {
+            return performative;
+        }
+        set
         {
             performative = "";
             bool found = checkPerformative(value.ToString());
+           
             if (!found)
-            {
-                throw new InvalidPerformativeException("Performative not in the list: " + value);
-            }
+                throw new
+                InvalidPerformativeException("Performative not in the list:" + value);
             else
-            {
                 performative = value;
-            }
         }
     }
     public string Content
     {
-        get { return content; }
-        set { content = value; }
-    }
-    public string AclMessage
-    {
-        get 
+        get
         {
-            string temp = "";
-            temp = "(" + performative.ToLower() + ":sender (agent-identifier :name "
-+ reciever + ") " + ":content " + content + ")";
-            return temp;
+            return content;
+        }
+        set
+        {
+            content = value;
         }
     }
 
-    //validation for performatives 
+
+ 
+ public string AclMessage
+    {
+        get
+        {
+        
+            string temp = "";
+            temp = "(" + performative.ToLower() +
+            ":sender (agent-identifier :name " + sender + ") " +
+            ":receiver (set (agent-identifier :name " + receiver + ") " +
+            ":content " + content +
+            " )";
+            return temp;
+        }
+    }
     private bool checkPerformative(string candidPerform)
     {
-        //list with acceptable performatives
-        //this can obviously be extended
+       
         string[] performatives = { "accept proposal", "agree", "request" };
         int i = 0;
-        //assume that the performative is not in the list
         bool found = false;
 
         if (candidPerform == null)
@@ -88,8 +110,6 @@ public class ACLMessage : MonoBehaviour
         return found;
     }
 }
-
-//Very simple, user defined exception
 class InvalidPerformativeException : System.Exception
 {
     public InvalidPerformativeException(string message) :
