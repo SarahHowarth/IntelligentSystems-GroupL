@@ -27,9 +27,9 @@ public class DeliveryAgent : MonoBehaviour
     public void SendConstraints()
     {
         ACLMessage message;
-
-
-
+        //assert contraints 
+        
+        //send to master routing agent
         MasterRoutingAgent.ReceiveConstraints(message);
     }
 

@@ -5,6 +5,19 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     //worldcontroller.intance().
     // Start is called before the first frame update
     void Start()
