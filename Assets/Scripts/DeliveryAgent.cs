@@ -21,7 +21,7 @@ public class DeliveryAgent : MonoBehaviour
         type = aType;
 
         depot = aDepot;
-        currentLoc = depot.GetPosition()
+        currentLoc = depot.GetPosition();
     }
 
     public void SendConstraints()
@@ -45,8 +45,8 @@ public class DeliveryAgent : MonoBehaviour
 
     public bool DeliverPackages(Transform Location)
     {
-        bool result == false;
-        foreach i in packages{
+        bool result = false;
+        foreach (int i in packages){
             if(i.GetDestination().GetPosition() == Location)
             {
                 result = true;

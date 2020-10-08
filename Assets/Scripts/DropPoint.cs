@@ -17,22 +17,20 @@ public class DropPoint : MonoBehaviour
         this.position = position;
     }
 
-    //in case we want to be able to use the const without the position param
-
+//In case we want to be able to use the const without the position param
     public DropPoint(int id)
     {
         this.id = id;
         
     }
 
-    // Methods
-
+// Methods
     public void DeliverPackagesHere(List<Packages> packages)
     {
         this.packages.addRange(packages);
     }
 
-    //public props
+//public props
     public int ID
     {
         get
