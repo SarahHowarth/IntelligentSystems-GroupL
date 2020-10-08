@@ -12,7 +12,7 @@ public class MasterRoutingAgent : MonoBehaviour
 {
     protected List<GameObject> deliveryAgents;
     protected List<GameObject> vehiclesAtDepot;
-    protected Dictionary<GameObject, int> truckCapacity;
+    protected Dictionary<int, GameObject> truckCapacity;
 
     protected List<GameObject> allPackages;
     protected List<GameObject> packagesToDeliver;
@@ -24,11 +24,20 @@ public class MasterRoutingAgent : MonoBehaviour
     protected long[,] distanceMatrix;
     protected int numVehicles;
 
-    public void Setup() {
-       //set the intial variables by looping through and adding the actual delivery agent scripts to the lists
-       //world controller keeps a reference of the gameobjects while the masterrouting agent holds the actual agent scripts
-       
-       //setup packages to deliver and droppoints
+    public void Setup(List<GameObject> packages, List<GameObject> dAgent) {
+        //TODO: set the intial variables by looping through and adding the actual delivery agent scripts to the lists
+        //world controller keeps a reference of the gameobjects while the masterrouting agent holds the actual agent scripts   
+        //setup packages to deliver and droppoints - using game object for now
+        allPackages.Clear();
+        packagesToDeliver.Clear();
+        allPackages = packages;
+        packagesToDeliver = packages;
+
+        deliveryAgents.Clear();
+        vehiclesAtDepot.Clear();
+        truckCapacity.Clear();
+        deliveryAgents = dAgent;
+        vehiclesAtDepot = dAgent;
     }
 
     public void SetupVRP() { }
