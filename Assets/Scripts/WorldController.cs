@@ -49,7 +49,7 @@ public class WorldController : MonoBehaviour
     private void StartSimulation() 
     {
         //To Do intialise master routing agent with the private ai data so they can start 
-    
+        
     }
 
     private void InstantiateVehicles(int numberOfVehicles) 
@@ -82,10 +82,6 @@ public class WorldController : MonoBehaviour
         numberOfDeliveryAgents = agents;
         InstantiateVehicles(numberOfDeliveryAgents);
     }
-
-
-
-
 
     //extension functions for dynamic addition of packages etc.
     //will need to link to functions that update the simulation
