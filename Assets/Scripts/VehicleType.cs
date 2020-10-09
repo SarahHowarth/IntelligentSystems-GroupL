@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //actual vals assigned to be used as vehicle capacity
-public enum VehicleType : MonoBehaviour
+public enum VehicleType
 {
     truck = 20,
     van = 15,

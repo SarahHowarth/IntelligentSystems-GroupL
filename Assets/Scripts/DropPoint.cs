@@ -8,7 +8,7 @@ public class DropPoint : MonoBehaviour
 //priv fields
     private Transform position;
     private int id;
-    private List<Packages> packages = new ArrayList<Packages>();
+    private List<Package> packages = new List<Package>();
 
 //public const
     public DropPoint(Transform position, int id)
@@ -25,9 +25,9 @@ public class DropPoint : MonoBehaviour
     }
 
 // Methods
-    public void DeliverPackagesHere(List<Packages> packages)
+    public void DeliverPackagesHere(List<Package> packages)
     {
-        this.packages.addRange(packages);
+        //this.packages.addRange(packages);
     }
 
 //public props
@@ -43,7 +43,7 @@ public class DropPoint : MonoBehaviour
         }
     }
 
-    public int Position
+    public Transform Position
     {
         get
         {

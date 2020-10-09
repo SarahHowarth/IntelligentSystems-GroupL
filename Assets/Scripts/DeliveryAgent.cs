@@ -7,75 +7,78 @@ using UnityEngine;
 public class DeliveryAgent : MonoBehaviour
 {
     private int agentID;
-    private World world;
-    private list<DropPoint> route;
-    private list<Package> packages;
+    //private World world; - can do world.instance() instead if needed?
+    private List<GameObject> packages;//List<Package> packages;
     private VehicleType type;
     private Depot depot;
-    private transform currentLoc;
+    private Transform currentLoc;
+    private bool hasRoute;
 
-
-    DeliveryAgent(World aWorld, VehicleType aType, Depot aDepot)
+    //basically the constructor, just unity style
+    public void Setup(VehicleType aType, Depot aDepot)
     {
-        world = aWorld;
         type = aType;
-
         depot = aDepot;
-        currentLoc = depot.GetPosition();
+        currentLoc = depot.Position;
     }
 
     public void SendConstraints()
     {
-        ACLMessage message;
+        ACLMessage message = new ACLMessage();
         //assert contraints 
         
-        //send to master routing agent
-        MasterRoutingAgent.ReceiveConstraints(message);
+        //send to master routing agent via acl
     }
 
-    public void RequestRoute(ACLMessage message)
+    public void RequestRoute()
+    {
+        //indicate via ACL
+    }
+
+    public void ReceiveRoute(ACLMessage message)
     {
 
     }
 
-    public bool RecieveRoute(ACLMessage message)
+    public void DeliverPackages(Transform Location)
     {
-
-    }
-
-    public bool DeliverPackages(Transform Location)
-    {
-        bool result = false;
-        foreach (int i in packages){
-            if(i.GetDestination().GetPosition() == Location)
-            {
-                result = true;
-            }
-        }
-
-        return result;
-    }
-
-    public bool MoveToNextLocation()
-    {
-
-    }
-
-
-    public bool GetLocation()
-    {
+        //foreach (GameObject p in packages){
+        //    if(p.Position == Location)
+        //    {
+        //        //unload packages from Del Agent
+        //        p.Destination.DeliverPackagesHere(p);
+        //    }
+        //}
         
+    }
+
+    public void MoveToNextLocation()
+    {
+
+    }
+
+
+    public Transform GetLocation()
+    {
+        return currentLoc;
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    void Start(){    }
 
     // Update is called once per frame
     void Update()
     {
+
+        if(hasRoute)
+        {
+            MoveToNextLocation();
+            DeliverPackages(currentLoc);
+        }
+        else
+        {
+            RequestRoute();
+        }
         
     }
 }
