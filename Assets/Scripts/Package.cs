@@ -9,8 +9,13 @@ public class Package : MonoBehaviour
     private float weight;
     private DropPoint destination;
 
-    //use properties to set and get package
-    //monobehaviour does not have default constructor 
+    //use this for any animation type stuff
+    //move package to be a child of this gameobject instead so it's not still floating around with the DA
+    public void GetDelivered(Transform parentTransform) 
+    {
+        transform.SetParent(parentTransform, false);
+    }
+
     public DropPoint Destination
     {
         get

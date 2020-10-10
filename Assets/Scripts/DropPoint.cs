@@ -8,7 +8,7 @@ public class DropPoint : MonoBehaviour
     //priv fields
     private Transform position;
     private int id;
-    private List<Package> packages = new List<Package>();
+    private List<GameObject> packages = new List<GameObject>();
 
     private void Start()
     {
@@ -18,9 +18,12 @@ public class DropPoint : MonoBehaviour
     }
 
     // Methods
-    public void DeliverPackageHere(Package package)
+    public void DeliverPackageHere(GameObject package)
     {
+        //add package to list
         packages.Add(package);
+        //tell package to get delivered - does unity stuff and/or any animations associated with the package
+        package.GetComponent<Package>().GetDelivered(this.transform);
     }
 
     //public props
