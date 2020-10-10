@@ -23,8 +23,8 @@ public class UIController : MonoBehaviour
     public Button downDels;
 
     private float startTime;
-    private modes mode = modes.stopped; 
-    private enum modes
+    private Modes mode = Modes.stopped; 
+    private enum Modes
     {
         stopped,
         oneSpeed,
@@ -34,30 +34,30 @@ public class UIController : MonoBehaviour
     void Recompute() {
         startTime = 0;
     }
-    void toggleStart() {
+    void ToggleStart() {
         switch (mode)
         {
-            case modes.stopped:
+            case Modes.stopped:
                 {
                     //go to next mode -> 1x speed
                     Time.timeScale = 1;
-                    mode = modes.oneSpeed;
+                    mode = Modes.oneSpeed;
                     startToggle.image.sprite = spriteOneSpeed;
                     break;
                 }
-            case modes.oneSpeed:
+            case Modes.oneSpeed:
                 {
                     //go to next mode -> 2x speed
                     Time.timeScale = 2;
-                    mode = modes.twoSpeed;
+                    mode = Modes.twoSpeed;
                     startToggle.image.sprite = spriteTwoSpeed;
                     break;
                 }
-            case modes.twoSpeed:
+            case Modes.twoSpeed:
                 {
                     //go to next mode -> stopped
                     Time.timeScale = 0;
-                    mode = modes.stopped;
+                    mode = Modes.stopped;
                     startToggle.image.sprite = spriteStopped;
                     break;
                 }
@@ -86,7 +86,7 @@ public class UIController : MonoBehaviour
     {
         //On click - run corresponding function for each button
         recompute.GetComponent<Button>().onClick.AddListener(Recompute);
-        startToggle.GetComponent<Button>().onClick.AddListener(toggleStart);
+        startToggle.GetComponent<Button>().onClick.AddListener(ToggleStart);
         upDelAgents.GetComponent<Button>().onClick.AddListener(IncrementDelAgents);
         downDelAgents.GetComponent<Button>().onClick.AddListener(DecrementDelAgents);
         upDels.GetComponent<Button>().onClick.AddListener(IncrementDeliveries);
@@ -99,11 +99,11 @@ public class UIController : MonoBehaviour
     {
         switch (mode)
         {
-            case modes.stopped:
+            case Modes.stopped:
                 {
                     break;
                 }
-            case modes.oneSpeed | modes.twoSpeed:
+            case Modes.oneSpeed | Modes.twoSpeed:
                 {
                     break;
                 }

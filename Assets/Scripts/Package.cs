@@ -6,15 +6,11 @@ using UnityEngine;
 public class Package : MonoBehaviour
 {
     private int id;
-    private int weight;
+    private float weight;
     private DropPoint destination;
 
-    public Package(int id, int weight)
-    {
-
-    }
-
-
+    //use properties to set and get package
+    //monobehaviour does not have default constructor 
     public DropPoint Destination
     {
         get
@@ -27,19 +23,27 @@ public class Package : MonoBehaviour
         }
     }
 
-    public int getID
+    public int ID
     {
         get
         {
             return id;
         }
+        set 
+        {
+            id = value;
+        }
     }
 
-    public int getWeight
+    public float Weight
     {
         get
         {
             return weight;
+        }
+        set
+        {
+            weight = value;
         }
     }
 }

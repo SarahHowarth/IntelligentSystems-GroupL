@@ -9,10 +9,13 @@ public class WorldController : MonoBehaviour
     private static WorldController instance = null;
     public static WorldController Instance => instance;
 
+    //prefabs to spawn + navmesh
+    [SerializeField] private List<GameObject> truckPrefabs = default;
+    [SerializeField] private GameObject dropPointPrefab = default;
     [SerializeField] private NavMeshSurface navMesh = default;
    
     //ai private data
-    [SerializeField]private GameObject depot;
+    [SerializeField]private GameObject depot = default;
     private List<GameObject> dropPoints;
     private List<GameObject> deliveryVehicles;
 
@@ -62,7 +65,9 @@ public class WorldController : MonoBehaviour
         //TO DO instantiate prefabs once added 
     }
 
-    
+    public void RebakeNavMesh() { }
+
+
     //properties
     public GameObject GetDepot() { return depot; }
 
@@ -85,9 +90,6 @@ public class WorldController : MonoBehaviour
 
     //extension functions for dynamic addition of packages etc.
     //will need to link to functions that update the simulation
-    public void AddDropPoint() { }
-    public void AddPackage() { }
-    public void RebakeNavMesh() { }
-
-
+    //public void AddDropPoint() { }
+    //public void AddPackage() { }
 }

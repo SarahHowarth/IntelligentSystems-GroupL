@@ -12,7 +12,7 @@ public class MasterRoutingAgent : MonoBehaviour
 {
     protected List<GameObject> deliveryAgents;
     protected List<GameObject> vehiclesAtDepot;
-    protected Dictionary<int, GameObject> truckCapacity;
+    protected Dictionary<int, float> truckCapacity;
 
     protected List<GameObject> allPackages;
     protected List<GameObject> packagesToDeliver;
@@ -38,6 +38,7 @@ public class MasterRoutingAgent : MonoBehaviour
         truckCapacity.Clear();
         deliveryAgents = dAgent;
         vehiclesAtDepot = dAgent;
+        //TO DO: set trucks capacity dictionary
     }
 
     public void SetupVRP() { }
@@ -57,8 +58,9 @@ public class MasterRoutingAgent : MonoBehaviour
         //then send back 
     }
 
-    public void SendRoute() 
-    { 
+    public bool SendRoute() 
+    {
         //construct the ACL message and send the route to the DA 
+        return true;
     }
 }

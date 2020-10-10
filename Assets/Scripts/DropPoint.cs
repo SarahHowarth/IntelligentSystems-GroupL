@@ -5,32 +5,25 @@ using UnityEngine;
 
 public class DropPoint : MonoBehaviour
 {
-//priv fields
+    //priv fields
     private Transform position;
     private int id;
     private List<Package> packages = new List<Package>();
 
-//public const
-    public DropPoint(Transform position, int id)
+    private void Start()
     {
-        this.id = id;
-        this.position = position;
+        //retrieve the position when the droppoint is spawned 
+        //will set ID on spawn with property
+        position = this.transform;
     }
 
-//In case we want to be able to use the const without the position param
-    public DropPoint(int id)
+    // Methods
+    public void DeliverPackageHere(Package package)
     {
-        this.id = id;
-        
+        packages.Add(package);
     }
 
-// Methods
-    public void DeliverPackagesHere(List<Package> packages)
-    {
-        //this.packages.addRange(packages);
-    }
-
-//public props
+    //public props
     public int ID
     {
         get
