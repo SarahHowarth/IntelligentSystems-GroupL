@@ -12,10 +12,10 @@ public class MasterRoutingAgent : MonoBehaviour
 {
     protected List<GameObject> deliveryAgents;
     protected List<GameObject> vehiclesAtDepot;
-    protected Dictionary<int, GameObject> truckCapacity;
+    protected Dictionary<int, float> truckCapacity;
 
     protected List<GameObject> allPackages;
-    protected List<GameObject> packagesToDeliver;
+    protected List<GameObject> packagesAtDepot;
 
     protected List<GameObject> dropPoints;
 
@@ -24,41 +24,60 @@ public class MasterRoutingAgent : MonoBehaviour
     protected long[,] distanceMatrix;
     protected int numVehicles;
 
-    public void Setup(List<GameObject> packages, List<GameObject> dAgent) {
-        //TODO: set the intial variables by looping through and adding the actual delivery agent scripts to the lists
-        //world controller keeps a reference of the gameobjects while the masterrouting agent holds the actual agent scripts   
-        //setup packages to deliver and droppoints - using game object for now
+    public void Setup(List<GameObject> dPoints, List<GameObject> dAgent, List<GameObject> packages)
+    {
+        //setup packages to deliver and droppoints
         allPackages.Clear();
-        packagesToDeliver.Clear();
+        packagesAtDepot.Clear();
         allPackages = packages;
-        packagesToDeliver = packages;
+        packagesAtDepot = packages;
+        dropPoints.Clear();
+        dropPoints = dPoints;
 
+        //loop through droppoints and set ID's
+
+        //loop through packages, set values and assign to a droppoint
+
+
+        //setup delivery agents and their capacity
         deliveryAgents.Clear();
         vehiclesAtDepot.Clear();
         truckCapacity.Clear();
         deliveryAgents = dAgent;
         vehiclesAtDepot = dAgent;
+        //loop through agents and set them up
     }
 
-    public void SetupVRP() { }
-
-    public void StartVRP() {  }
-
-    public void ReceiveConstraints(ACLMessage message) 
-    { 
-       //will be called by delivery agent
-       //assign to truck capacity dictionary based on sender id 
+    public void ReceiveConstraints(ACLMessage message)
+    {
+        //will be called by delivery agent
+        //assign to truck capacity dictionary based on sender id 
     }
 
-    public void ReceiveRouteRequest(ACLMessage message) 
-    { 
+    public void ReceiveRouteRequest(ACLMessage message)
+    {
         //will be called by delivery agent 
-        //calculate route when a delivery agent asks for one  
-        //then send back 
+        //assign packages and send back message  
+        //calculate route and send back message 
     }
 
-    public void SendRoute() 
-    { 
+    public void SendPackages()
+    {
+        //construct the ACL message and send the assigned packages to the DA 
+    }
+
+    public bool SendRoute()
+    {
         //construct the ACL message and send the route to the DA 
+        return true;
+    }
+
+    private void AssignPackages(int agentID) 
+    { 
+        //used to calculate and assign packages to a truck
+        
+        //will need to child the package game object to the truck 
+
+        //loop through and remove assigned packages from packagesAtDepot list 
     }
 }

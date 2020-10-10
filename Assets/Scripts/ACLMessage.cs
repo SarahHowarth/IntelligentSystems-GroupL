@@ -9,8 +9,7 @@ public class ACLMessage : MonoBehaviour
     private string receiver;
     private string performative;
     private string content;
-    private readonly string aclMessage;
-
+    private string aclMessage;
 
     public ACLMessage()
     {
@@ -21,7 +20,7 @@ public class ACLMessage : MonoBehaviour
         content = "";
     }
 
- public string Sender
+    public string Sender
     {
         get
         {
@@ -33,7 +32,7 @@ public class ACLMessage : MonoBehaviour
         }
     }
 
-    public string Reveiver
+    public string Receiver
     {
         get
         {
@@ -54,7 +53,7 @@ public class ACLMessage : MonoBehaviour
         set
         {
             performative = "";
-            bool found = checkPerformative(value.ToString());
+            bool found = CheckPerformative(value.ToString());
            
             if (!found)
                 throw new
@@ -91,7 +90,7 @@ public class ACLMessage : MonoBehaviour
             return temp;
         }
     }
-    private bool checkPerformative(string candidPerform)
+    private bool CheckPerformative(string candidPerform)
     {
        
         string[] performatives = { "accept proposal", "agree", "request" };

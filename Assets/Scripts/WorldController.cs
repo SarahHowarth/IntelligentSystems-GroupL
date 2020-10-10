@@ -9,15 +9,20 @@ public class WorldController : MonoBehaviour
     private static WorldController instance = null;
     public static WorldController Instance => instance;
 
+    //prefabs to spawn + navmesh
+    [SerializeField] private List<GameObject> truckPrefabs = default;
+    [SerializeField] private GameObject dropPointPrefab = default;
+    [SerializeField] private GameObject packagePrefab = default;
     [SerializeField] private NavMeshSurface navMesh = default;
    
     //ai private data
-    [SerializeField]private GameObject depot;
+    [SerializeField]private GameObject depot = default;
     private List<GameObject> dropPoints;
     private List<GameObject> deliveryVehicles;
+    private List<GameObject> packages;
 
     //data from UI
-    private int packagesToDeliver = 0; //equates to the number of drop points? 1 package per place 
+    private int packagesToDeliver = 0; //equates to the number of drop points 1 package per place 
     private int numberOfDeliveryAgents = 0;
     
     // Start is called before the first frame update
@@ -59,10 +64,17 @@ public class WorldController : MonoBehaviour
 
     private void InstantiateDropPoints(int numberOfPackages) 
     { 
-        //TO DO instantiate prefabs once added 
+        //TO DO:
+        //instantiate droppoint prefabs in random locations
+        //add to drop points list
+
+        //instantiate packages at depot
+
     }
 
-    
+    public void RebakeNavMesh() { }
+
+
     //properties
     public GameObject GetDepot() { return depot; }
 
@@ -85,9 +97,6 @@ public class WorldController : MonoBehaviour
 
     //extension functions for dynamic addition of packages etc.
     //will need to link to functions that update the simulation
-    public void AddDropPoint() { }
-    public void AddPackage() { }
-    public void RebakeNavMesh() { }
-
-
+    //public void AddDropPoint() { }
+    //public void AddPackage() { }
 }

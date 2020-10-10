@@ -6,14 +6,15 @@ using UnityEngine;
 public class Package : MonoBehaviour
 {
     private int id;
-    private int weight;
+    private float weight;
     private DropPoint destination;
 
-    public Package(int id, int weight)
+    //use this for any animation type stuff
+    //move package to be a child of this gameobject instead so it's not still floating around with the DA
+    public void GetDelivered(Transform parentTransform) 
     {
-
+        transform.SetParent(parentTransform, false);
     }
-
 
     public DropPoint Destination
     {
@@ -27,19 +28,27 @@ public class Package : MonoBehaviour
         }
     }
 
-    public int getID
+    public int ID
     {
         get
         {
             return id;
         }
+        set 
+        {
+            id = value;
+        }
     }
 
-    public int getWeight
+    public float Weight
     {
         get
         {
             return weight;
+        }
+        set
+        {
+            weight = value;
         }
     }
 }

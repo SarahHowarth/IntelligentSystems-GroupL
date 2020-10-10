@@ -12,6 +12,7 @@ public class DeliveryAgent : MonoBehaviour
     private VehicleType type;
     private Depot depot;
     private Transform currentLoc;
+    private List<GameObject> route;
     private bool hasRoute;
 
     //basically the constructor, just unity style
@@ -40,16 +41,17 @@ public class DeliveryAgent : MonoBehaviour
 
     }
 
-    public void DeliverPackages(Transform Location)
+    public void DeliverPackages(Transform location)
     {
-        //foreach (GameObject p in packages){
-        //    if(p.Position == Location)
-        //    {
-        //        //unload packages from Del Agent
-        //        p.Destination.DeliverPackagesHere(p);
-        //    }
-        //}
-        
+        foreach (GameObject p in packages)
+        {
+            DropPoint destination = p.GetComponent<Package>().Destination;
+            if (destination.Position == location)
+            {
+                //unload packages from Del Agent
+                destination.DeliverPackageHere(p);
+            }
+        }
     }
 
     public void MoveToNextLocation()
@@ -57,14 +59,10 @@ public class DeliveryAgent : MonoBehaviour
 
     }
 
-
     public Transform GetLocation()
     {
         return currentLoc;
     }
-
-    // Start is called before the first frame update
-    void Start(){    }
 
     // Update is called once per frame
     void Update()
