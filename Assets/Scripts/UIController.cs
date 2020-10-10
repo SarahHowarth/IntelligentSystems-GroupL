@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,12 +65,29 @@ public class UIController : MonoBehaviour
             default: break;
         }
     }
-    void IncrementDelAgents() { }
-    void DecrementDelAgents() { }
-    void IncrementDeliveries() { }
-    void DecrementDeliveries() { }
+    void IncrementDelAgents() {
+        string fromField = delAgentsInputField.text;
+        int toField = Int32.Parse(fromField) + 1;
+        delAgentsInputField.text.Replace(fromField, toField.ToString());
+    }
+    void DecrementDelAgents() {
+        string fromField = delAgentsInputField.text;
+        int toField = Int32.Parse(fromField) + 1;
+        delAgentsInputField.text.Replace(fromField, toField.ToString());
+    }
+    void IncrementDeliveries() {
+        string fromField = delsInputField.text;
+        int toField = Int32.Parse(fromField) + 1;
+        delsInputField.text.Replace(fromField, toField.ToString());
+    }
+    void DecrementDeliveries() {
+        string fromField = delsInputField.text;
+        int toField = Int32.Parse(fromField) - 1;
+        delsInputField.text.Replace(fromField, toField.ToString());
+    }
 
-
+    void SetDelAgents() { }
+    void SetDels() { }
 
 
 
