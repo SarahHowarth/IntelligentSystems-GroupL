@@ -12,19 +12,19 @@ public class WorldController : MonoBehaviour
     //prefabs to spawn + navmesh
     [SerializeField] private List<GameObject> truckPrefabs = default;
     [SerializeField] private GameObject dropPointPrefab = default;
-    [SerializeField] private GameObject packagePrefab = default;
     [SerializeField] private NavMeshSurface navMesh = default;
    
     //ai private data
     [SerializeField]private GameObject depot = default;
     private List<GameObject> dropPoints;
     private List<GameObject> deliveryVehicles;
-    private List<GameObject> packages;
 
     //data from UI
-    private int packagesToDeliver = 0; //equates to the number of drop points 1 package per place 
+    private int numberOfDropPoints = 0;
     private int numberOfDeliveryAgents = 0;
-    
+    private int numberOfPackagesMin = 1;//randomly assign number of packages to droppoints in MRA based on mix and max
+    private int numberOfPackagesMax = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +33,6 @@ public class WorldController : MonoBehaviour
 
         instance = this; 
     }
-    
 
     /// <summary>
     /// UI to call to start simulation
@@ -42,7 +41,7 @@ public class WorldController : MonoBehaviour
     /// <returns></returns>
     public bool TryToStart()
     {
-        if (packagesToDeliver == 0 || numberOfDeliveryAgents == 0) 
+        if (numberOfDeliveryAgents == 0 || numberOfDeliveryAgents == 0 || numberOfPackagesMax == 0) 
         {
             return false;
         }
@@ -53,8 +52,9 @@ public class WorldController : MonoBehaviour
 
     private void StartSimulation() 
     {
-        //To Do intialise master routing agent with the private ai data so they can start 
-        
+        //To Do intialise master routing agent with the private ai data so they can start
+        Depot depotScript = depot.GetComponent<Depot>();
+        depotScript.Setup(dropPoints, deliveryVehicles, numberOfPackagesMin, numberOfPackagesMax);  
     }
 
     private void InstantiateVehicles(int numberOfVehicles) 
@@ -67,8 +67,6 @@ public class WorldController : MonoBehaviour
         //TO DO:
         //instantiate droppoint prefabs in random locations
         //add to drop points list
-
-        //instantiate packages at depot
 
     }
 
@@ -83,16 +81,27 @@ public class WorldController : MonoBehaviour
     public List<GameObject> GetDropPoints() { return dropPoints; }
 
     ///ui manager to call to set the packages and vehicles from ui for initialisation
-    public void SetPackagesToDeliver(int packages) 
+    ///essentially just setting properties
+    public void SetNumberOfDropPoints(int dropPoints) 
     { 
-        packagesToDeliver = packages;
-        InstantiateDropPoints(packagesToDeliver);
+        numberOfDropPoints = dropPoints;
+        InstantiateDropPoints(numberOfDropPoints);
     }
 
     public void SetNumberOfDeliveryVehicles(int agents) 
     {
         numberOfDeliveryAgents = agents;
         InstantiateVehicles(numberOfDeliveryAgents);
+    }
+
+    public void SetMaxPackages(int packages) 
+    {
+        numberOfPackagesMax = packages;
+    }
+
+    public void SetMinPackages(int packages)
+    {
+        numberOfPackagesMin = packages;
     }
 
     //extension functions for dynamic addition of packages etc.
