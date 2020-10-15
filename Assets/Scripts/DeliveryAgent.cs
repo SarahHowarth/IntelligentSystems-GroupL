@@ -48,9 +48,11 @@ public class DeliveryAgent : MonoBehaviour
             DropPoint destination = p.GetComponent<Package>().Destination;
             if (destination.Position == location)
             {
-                //unload packages from Del Agent
+                //deliver package to destination
                 destination.DeliverPackageHere(p);
-            }
+                //remove packpage from agent
+                packages.Remove(p);
+            }          
         }
     }
 

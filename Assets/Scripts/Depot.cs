@@ -15,6 +15,7 @@ public class Depot :  MonoBehaviour
     private List<GameObject> dropPoints;
 
     private Transform position;
+    private LineRenderer lr;
 
     /// <summary>
     /// Called by the world controller to setup all the data 
@@ -50,6 +51,27 @@ public class Depot :  MonoBehaviour
         //request constraints from delivery agents
 
     }
+
+    private void StartGA() 
+    {
+
+        
+    }
+
+    public void DrawRoute(List<GameObject> route)
+    {
+        lr.positionCount = route.Count;
+
+        for (int i = 0; i < route.Count; i++)
+        {
+            DropPoint d = route[i].GetComponent<DropPoint>();
+            lr.SetPosition(i, d.Position.position);
+        }
+
+        lr.SetPosition(route.Count, route[0].GetComponent<DropPoint>().Position.position);
+    }
+
+    private void RequestConstraints() { }
 
     public void ReceiveConstraints(ACLMessage message)
     {
