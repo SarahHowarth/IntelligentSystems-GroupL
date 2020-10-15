@@ -23,7 +23,7 @@ public class WorldController : MonoBehaviour
     private int numberOfDropPoints = 0;
     private int numberOfDeliveryAgents = 0;
     private int numberOfPackagesMin = 1;//randomly assign number of packages to droppoints in MRA based on mix and max
-    private int numberOfPackagesMax = 0;
+    private int numberOfPackagesMax = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +41,7 @@ public class WorldController : MonoBehaviour
     /// <returns></returns>
     public bool TryToStart()
     {
-        if (numberOfDeliveryAgents == 0 || numberOfDeliveryAgents == 0 || numberOfPackagesMax == 0) 
+        if (numberOfPackagesMax == 0) 
         {
             return false;
         }
@@ -53,6 +53,8 @@ public class WorldController : MonoBehaviour
     private void StartSimulation() 
     {
         //To Do intialise master routing agent with the private ai data so they can start
+        InstantiateDropPoints(numberOfDropPoints);
+        InstantiateVehicles(numberOfDeliveryAgents);
         Depot depotScript = depot.GetComponent<Depot>();
         depotScript.Setup(dropPoints, deliveryVehicles, numberOfPackagesMin, numberOfPackagesMax);  
     }
@@ -82,30 +84,25 @@ public class WorldController : MonoBehaviour
 
     ///ui manager to call to set the packages and vehicles from ui for initialisation
     ///essentially just setting properties
-    public void SetNumberOfDropPoints(int dropPoints) 
-    { 
-        numberOfDropPoints = dropPoints;
-        InstantiateDropPoints(numberOfDropPoints);
-    }
-
-    public void SetNumberOfDeliveryVehicles(int agents) 
-    {
-        numberOfDeliveryAgents = agents;
-        InstantiateVehicles(numberOfDeliveryAgents);
-    }
-
     public void SetMaxPackages(int packages) 
     {
         numberOfPackagesMax = packages;
-    }
-
-    public void SetMinPackages(int packages)
-    {
-        numberOfPackagesMin = packages;
     }
 
     //extension functions for dynamic addition of packages etc.
     //will need to link to functions that update the simulation
     //public void AddDropPoint() { }
     //public void AddPackage() { }
+    //public void SetNumberOfDropPoints(int dropPoints)
+    //{
+    //    numberOfDropPoints = dropPoints;
+    //}
+    //public void SetNumberOfDeliveryVehicles(int agents)
+    //{
+    //    numberOfDeliveryAgents = agents;
+    //}
+    //public void SetMinPackages(int packages)
+    //{
+    //    numberOfPackagesMin = packages;
+    //}
 }
