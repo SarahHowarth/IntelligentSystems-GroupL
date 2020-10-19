@@ -13,7 +13,6 @@ using UnityEngine.UIElements;
 
 public class Depot :  MonoBehaviour
 {
-    [SerializeField] private GameObject packagePrefabs;
     private List<GameObject> deliveryAgents;
     private List<GameObject> vehiclesAtDepot;
     private Dictionary<int, float> truckCapacity;
@@ -35,7 +34,7 @@ public class Depot :  MonoBehaviour
     /// <param name="dAgent"></param>
     /// <param name="minPackages"></param>
     /// <param name="maxPackages"></param>
-    public void Setup(List<GameObject> dPoints, List<GameObject> dAgent, int minPackages, int maxPackages)
+    public void Setup(List<GameObject> dPoints, List<GameObject> dAgent, List<GameObject> packages)
     {
         //clear just incase
         allPackages.Clear();
@@ -47,18 +46,14 @@ public class Depot :  MonoBehaviour
         dropPoints = dPoints;
 
         //setup dropoints
-        //loop through droppoints and set ID's
         dropPoints = dPoints;
-        //loop through droppoints
-        ///loop again inside a random amount (based on min and max packages) 
-        ///instantiate package at depot but assign destination to droppoint
-
-        //loop through packages, set id's and random weights 
-
-
+        //setup packages
+        allPackages = packages;
+        packagesAtDepot = packages;
         //setup delivery agents
         deliveryAgents = dAgent;
         vehiclesAtDepot = dAgent;
+
         //request constraints from delivery agents
 
     }

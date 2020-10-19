@@ -81,4 +81,16 @@ public class DeliveryAgent : MonoBehaviour
         }
         
     }
+
+    public int ID 
+    { 
+        get { return agentID; }
+        set { agentID = value; }
+    }
+
+    //only for the WorldController
+    public int GetWeight 
+    { 
+        get { return (int)type; } 
+    }
 }
