@@ -7,10 +7,12 @@ using UnityEngine;
 public class VRPChromosome : ChromosomeBase
 {
     private readonly int numberOfDropPoints;
+    private readonly int numberOfVehicles;
 
-    public VRPChromosome(int numberOfDP) : base(numberOfDP)
+    public VRPChromosome(int numberOfDP, int numberOfVehicles) : base(numberOfDP)
     {
         numberOfDropPoints = numberOfDP;
+
         var dropPointsIndexes = RandomizationProvider.Current.GetUniqueInts(numberOfDropPoints, 0, numberOfDropPoints);
 
         for (int i = 0; i < numberOfDropPoints; i++)
@@ -28,7 +30,7 @@ public class VRPChromosome : ChromosomeBase
 
     public override IChromosome CreateNew()
     {
-        return new TspChromosome(numberOfDropPoints);
+        return new VRPChromosome(numberOfDropPoints);
     }
 
     public override IChromosome Clone()

@@ -21,6 +21,8 @@ public class Depot :  MonoBehaviour
     private List<GameObject> packagesAtDepot;
     private List<GameObject> dropPoints;
 
+    private List<GameObject> routes = new List<GameObject>();
+
     private Transform position;
     private LineRenderer lr;
 
@@ -60,10 +62,8 @@ public class Depot :  MonoBehaviour
 
     private void StartGA() 
     {
-        List<GameObject> routes = new List<GameObject>();
         var fitness = new VRPFitness(this);
-        var chromosome = new VRPChromosome(dropPoints.Count);
-
+        var chromosome = new VRPChromosome(dropPoints.Count, deliveryAgents.Count);
         var crossover = new OrderedCrossover();
         var mutation = new ReverseSequenceMutation();
         var selection = new RouletteWheelSelection();
@@ -74,14 +74,20 @@ public class Depot :  MonoBehaviour
 
         ga.GenerationRan += delegate
         {
-            var distance = ((TspChromosome)ga.BestChromosome).Distance;
-            Debug.Log($"Generation: {ga.GenerationsNumber} - Distance: ${distance}  - Fitness: ${ga.BestChromosome.Fitness}");
+            Debug.Log($"Generation: {ga.GenerationsNumber} - Fitness: ${ga.BestChromosome.Fitness}");
         };
+
+        ga.TerminationReached += delegate
+        {
+            Debug.Log("GA done");
+            GetBestRoutes(ga.Population.CurrentGeneration.BestChromosome as VRPChromosome);
+        };
+
         ga.Start();
+    }
 
-
-        var c = ga.Population.CurrentGeneration.BestChromosome as VRPChromosome;
-
+    private void GetBestRoutes(VRPChromosome c) 
+    {
         if (c != null)
         {
             var genes = c.GetGenes();
@@ -92,7 +98,6 @@ public class Depot :  MonoBehaviour
             }
         }
     }
-
     public void DrawRoute(List<GameObject> route)
     {
         lr.positionCount = route.Count;
