@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+
+    //singleton
+    private static UIController Instance => Instance;
+
     //text that will change
     public Text timerText;
     public Text fitnessMetric;
-    public InputField delsInputField;
-    public InputField delAgentsInputField;
+    public Text maxParcelsPerPt;
     //images to toggle the start button between
     public Sprite spriteStopped;
     public Sprite spriteOneSpeed;
@@ -33,7 +36,13 @@ public class UIController : MonoBehaviour
     }
 
     void Recompute() {
-        startTime = 0;
+        startTime = Time.time;
+        SetDels();
+        WorldController.Instance.TryToStart();
+
+        //pauses the simulaion, ready to start when user hits the start button
+        mode = Modes.twoSpeed;
+        ToggleStart();
     }
     void ToggleStart() {
         switch (mode)
@@ -44,6 +53,7 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 1;
                     mode = Modes.oneSpeed;
                     startToggle.image.sprite = spriteOneSpeed;
+                    WorldController.Instance.Resume();
                     break;
                 }
             case Modes.oneSpeed:
@@ -60,11 +70,14 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 0;
                     mode = Modes.stopped;
                     startToggle.image.sprite = spriteStopped;
+                    WorldController.Instance.Pause();
                     break;
                 }
             default: break;
         }
     }
+    
+   /* Left for potential extension 
     void IncrementDelAgents() {
         string fromField = delAgentsInputField.text;
         int toField = Int32.Parse(fromField) + 1;
@@ -75,28 +88,32 @@ public class UIController : MonoBehaviour
         int toField = Int32.Parse(fromField) + 1;
         delAgentsInputField.text.Replace(fromField, toField.ToString());
     }
+   */
+
+    //increment the maximum parcels for delivery
     void IncrementDeliveries() {
-        string fromField = delsInputField.text;
-        int toField = Int32.Parse(fromField) + 1;
-        delsInputField.text.Replace(fromField, toField.ToString());
+        if ((maxParcelsPerPt != null) && (maxParcelsPerPt.text != "3"))
+        {
+            int val = (Int32.Parse(maxParcelsPerPt.text)) + 1;
+            maxParcelsPerPt.text = val.ToString();
+
+        }
     }
+
+    //decrement the maximum parcels for delivery
     void DecrementDeliveries() {
-        string fromField = delsInputField.text;
-        int toField = Int32.Parse(fromField) - 1;
-        delsInputField.text.Replace(fromField, toField.ToString());
+        if ((maxParcelsPerPt != null) && (maxParcelsPerPt.text != "1"))
+        {
+            int val = (Int32.Parse(maxParcelsPerPt.text)) - 1;
+            maxParcelsPerPt.text = val.ToString();
+
+        }
     }
 
-    void SetDelAgents() { }
-    void SetDels() { }
-
-
-
-
-
-
-
-
-
+    /* for potential extension, void SetDelAgents() { }*/
+    void SetDels() {
+        WorldController.Instance.SetMaxPackages(Int32.Parse(maxParcelsPerPt.text));
+    }
 
     //worldcontroller.intance().
     // Start is called before the first frame update
@@ -105,16 +122,28 @@ public class UIController : MonoBehaviour
         //On click - run corresponding function for each button
         recompute.GetComponent<Button>().onClick.AddListener(Recompute);
         startToggle.GetComponent<Button>().onClick.AddListener(ToggleStart);
+        
+        /* Note - these are here for potential extension
         upDelAgents.GetComponent<Button>().onClick.AddListener(IncrementDelAgents);
         downDelAgents.GetComponent<Button>().onClick.AddListener(DecrementDelAgents);
+        */
+        
         upDels.GetComponent<Button>().onClick.AddListener(IncrementDeliveries);
         downDels.GetComponent<Button>().onClick.AddListener(DecrementDeliveries);
-
+        
+        //compute based on initial/default values
+        Recompute();
     }
 
     // Update is called once per frame
     void Update()
     {
+        float tDiff = Time.time - startTime;
+        string minutes = ((int)tDiff / 60).ToString();
+        string seconds = (tDiff % 60).ToString("f2");
+        timerText.text = minutes + ":" + seconds;
+
+        /* not necessary due to timescale, just present as backup until tested
         switch (mode)
         {
             case Modes.stopped:
@@ -123,9 +152,10 @@ public class UIController : MonoBehaviour
                 }
             case Modes.oneSpeed | Modes.twoSpeed:
                 {
+                    
                     break;
                 }
             default: break;
-        }
+        }*/
     }
 }

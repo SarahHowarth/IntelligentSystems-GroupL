@@ -60,6 +60,10 @@ public class WorldController : MonoBehaviour
 
     private void StartSimulation()
     {
+
+        
+
+
         //setup droppoints
         for (int i = 0; i < dropPoints.Count; i++)
         {
@@ -78,6 +82,9 @@ public class WorldController : MonoBehaviour
     private void SetupVehicles()
     {
         GameObject createdObject;
+
+        //clear existing objects in case of recompute
+        deliveryVehicles.Clear();
 
         //add 3 of each vehicle for first initialisation
         for (int i = 0; i <= 3; i++) 
@@ -152,6 +159,11 @@ public class WorldController : MonoBehaviour
 
     private void SetupPackages() 
     {
+
+        //clear existing objects in case of recompute
+        packages.Clear();
+
+
         //add package prefab to drop point based on min and max
         foreach (GameObject dp in dropPoints) 
         {
@@ -188,6 +200,23 @@ public class WorldController : MonoBehaviour
         numberOfPackagesMax = packages;
     }
 
+    public void Pause()
+    {
+        //go through agents and enable pause
+        for (int i = 0; i < deliveryVehicles.Count; i++)
+        {
+            deliveryVehicles[i].GetComponent<DeliveryAgent>().Pause();
+        }
+    }
+
+    public void Resume()
+    {
+        //go through agents and disable pause
+        for (int i = 0; i < deliveryVehicles.Count; i++)
+        {
+            deliveryVehicles[i].GetComponent<DeliveryAgent>().Resume();
+        }
+    }
     //extension functions for dynamic addition of packages etc.
     //will need to link to functions that update the simulation
     //public void AddDropPoint() { }

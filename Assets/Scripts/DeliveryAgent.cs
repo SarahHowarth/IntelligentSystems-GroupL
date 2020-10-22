@@ -14,6 +14,7 @@ public class DeliveryAgent : MonoBehaviour
     private Transform currentLoc;
     private List<GameObject> route;
     private bool hasRoute;
+    private bool paused;
 
     //basically the constructor, just unity style
     public void Setup(VehicleType aType, Depot aDepot)
@@ -23,6 +24,15 @@ public class DeliveryAgent : MonoBehaviour
         currentLoc = depot.Position;
     }
 
+    public void Pause()
+    {
+        paused = true;
+    }
+
+    public void Resume()
+    {
+        paused = false;
+    }
     public void SendConstraints()
     {
         ACLMessage message = new ACLMessage();
@@ -69,17 +79,18 @@ public class DeliveryAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(hasRoute)
+        if (!paused)
         {
-            MoveToNextLocation();
-            DeliverPackages(currentLoc);
+            if (hasRoute)
+            {
+                MoveToNextLocation();
+                DeliverPackages(currentLoc);
+            }
+            else
+            {
+                RequestRoute();
+            }
         }
-        else
-        {
-            RequestRoute();
-        }
-        
     }
 
     public int ID 
