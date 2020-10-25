@@ -6,31 +6,37 @@ using UnityEngine;
 
 public class VRPChromosome : ChromosomeBase
 {
-    private readonly int numberOfDropPoints;
+    private readonly int numberOfDropPoints; //is the graph dimension essentially
     private readonly int numberOfVehicles;
 
-    public VRPChromosome(int numberOfDP, int numberOfVehicles) : base(numberOfDP)
+    /// <summary>
+    /// intialise chromosome to create gene data
+    /// </summary>
+    /// <param name="dp">droppoints</param>
+    /// <param name="v">deliveryvehicles</param>
+    public VRPChromosome(int dropPointCount, int vehicleCount) : base(dropPointCount)
     {
-        numberOfDropPoints = numberOfDP;
-
-        var dropPointsIndexes = RandomizationProvider.Current.GetUniqueInts(numberOfDropPoints, 0, numberOfDropPoints);
+        numberOfDropPoints = dropPointCount;
+        numberOfVehicles = vehicleCount;
 
         for (int i = 0; i < numberOfDropPoints; i++)
         {
-            ReplaceGene(i, new Gene(dropPointsIndexes[i]));
+            ReplaceGene(i, GenerateGene(i));
         }
+
     }
 
     public double Distance { get; internal set; }
 
+
     public override Gene GenerateGene(int geneIndex)
     {
-        return new Gene(RandomizationProvider.Current.GetInt(0, numberOfDropPoints));
+        return new Gene(RandomizationProvider.Current.GetInt(0, numberOfVehicles));
     }
 
     public override IChromosome CreateNew()
     {
-        return new VRPChromosome(numberOfDropPoints);
+        return new VRPChromosome(numberOfDropPoints, numberOfVehicles);
     }
 
     public override IChromosome Clone()

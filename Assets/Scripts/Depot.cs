@@ -29,6 +29,11 @@ public class Depot :  MonoBehaviour
     private GeneticAlgorithm ga;
     private readonly int NUMBER_OF_GENERATIONS = 300;
 
+    private void Start()
+    {
+        position = this.gameObject.transform;
+    }
+
     /// <summary>
     /// Called by the world controller to setup all the data 
     /// </summary>
@@ -86,16 +91,17 @@ public class Depot :  MonoBehaviour
         ga.Start();
     }
 
+    //TO DO EDIT:
     private void GetBestRoutes(VRPChromosome c) 
     {
         if (c != null)
         {
             var genes = c.GetGenes();
-            var dropPoints = ((VRPFitness)ga.Fitness).DropPoints;
-            for (int i = 0; i < genes.Length; i++)
-            {
-                routes.Add(dropPoints[(int)genes[i].Value].gameObject);
-            }
+            //var dropPoints = ((VRPFitness)ga.Fitness).DropPoints;
+            //for (int i = 0; i < genes.Length; i++)
+            //{
+            //    routes.Add(dropPoints[(int)genes[i].Value].gameObject);
+            //}
         }
     }
     public void DrawRoute(List<GameObject> route)
@@ -111,6 +117,29 @@ public class Depot :  MonoBehaviour
         lr.SetPosition(route.Count, route[0].GetComponent<DropPoint>().Position.position);
     }
 
+    public float GetVehicleCapacity(int ID) 
+    {
+        return truckCapacity[ID];
+    }
+
+    public float GetDropPointDemand(DropPoint dp) 
+    {
+        float dropPointDemand = 0.0f;
+
+        foreach (GameObject p in allPackages) 
+        {
+            Package thePackage = p.GetComponent<Package>();
+            if (thePackage.Destination == dp) 
+            {
+                dropPointDemand += thePackage.Weight;
+            }
+        }
+        return dropPointDemand;
+    }
+
+    /// <summary>
+    /// ACL functions
+    /// </summary>
     private void RequestConstraints() { }
 
     public void ReceiveConstraints(ACLMessage message)
@@ -146,6 +175,9 @@ public class Depot :  MonoBehaviour
         //loop through and remove assigned packages from packagesAtDepot list 
     }
 
+    /// <summary>
+    /// properties
+    /// </summary>
     public Transform Position 
     {
         get { return position; }
