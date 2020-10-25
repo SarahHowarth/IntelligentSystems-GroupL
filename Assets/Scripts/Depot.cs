@@ -10,6 +10,7 @@ using System.Threading;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Terminations;
 using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 public class Depot :  MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Depot :  MonoBehaviour
     private List<GameObject> packagesAtDepot;
     private List<GameObject> dropPoints;
 
-    private List<GameObject> routes = new List<GameObject>();
+    private Dictionary<int, List<GameObject>> routes; 
 
     private Transform position;
     private LineRenderer lr;
@@ -44,13 +45,13 @@ public class Depot :  MonoBehaviour
     public void Setup(List<GameObject> dPoints, List<GameObject> dAgent, List<GameObject> packages)
     {
         //clear just incase
+        routes.Clear();
         allPackages.Clear();
         packagesAtDepot.Clear();
         dropPoints.Clear();
         deliveryAgents.Clear();
         vehiclesAtDepot.Clear();
         truckCapacity.Clear();
-        dropPoints = dPoints;
 
         //setup dropoints
         dropPoints = dPoints;
@@ -61,7 +62,7 @@ public class Depot :  MonoBehaviour
         deliveryAgents = dAgent;
         vehiclesAtDepot = dAgent;
 
-        //request constraints from delivery agents
+        //request constraints from delivery agents after setup
 
     }
 
@@ -85,25 +86,45 @@ public class Depot :  MonoBehaviour
         ga.TerminationReached += delegate
         {
             Debug.Log("GA done");
-            GetBestRoutes(ga.Population.CurrentGeneration.BestChromosome as VRPChromosome);
+            GetBestRoutes(ga.Population.CurrentGeneration.BestChromosome as VRPChromosome, fitness);
         };
 
         ga.Start();
     }
 
-    //TO DO EDIT:
-    private void GetBestRoutes(VRPChromosome c) 
+    private void GetBestRoutes(VRPChromosome c, VRPFitness f) 
     {
         if (c != null)
         {
-            var genes = c.GetGenes();
-            //var dropPoints = ((VRPFitness)ga.Fitness).DropPoints;
-            //for (int i = 0; i < genes.Length; i++)
-            //{
-            //    routes.Add(dropPoints[(int)genes[i].Value].gameObject);
-            //}
+            Dictionary<int, List<int>> routesNotFormatted = new Dictionary<int, List<int>>();
+            for (int i = 0; i < deliveryAgents.Count; i++) 
+            {
+                List<int> route = f.GetPositions(i, c);
+                FormatRoute(i, route);
+                double distance = f.CalcTotalDistance(i, c);
+                double demand = f.CalcTotalDemand(i, c);
+                Debug.Log("vehicle ID: " + i.ToString() + ", distance: " + distance.ToString() + ", demand: " + demand.ToString());
+            }
         }
     }
+
+    private void FormatRoute(int vehicleID, List<int> nRoute) 
+    {
+        List<GameObject> formattedRoute = new List<GameObject>();
+        foreach (int ID in nRoute) 
+        {
+            foreach (GameObject g in dropPoints) 
+            {
+                DropPoint dp = g.GetComponent<DropPoint>();
+                if (dp.ID == ID) 
+                {
+                    formattedRoute.Add(g);
+                }
+            }
+        }
+        routes.Add(vehicleID, formattedRoute);
+    }
+
     public void DrawRoute(List<GameObject> route)
     {
         lr.positionCount = route.Count;
@@ -168,11 +189,10 @@ public class Depot :  MonoBehaviour
 
     private void AssignPackages(int agentID)
     {
-        //used to calculate and assign packages to a truck
-
         //will need to child the package game object to the truck 
 
         //loop through and remove assigned packages from packagesAtDepot list 
+
     }
 
     /// <summary>

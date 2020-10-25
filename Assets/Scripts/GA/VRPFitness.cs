@@ -39,7 +39,7 @@ public class VRPFitness : IFitness
         return fitness;
     }
 
-    private double CalcTotalDistance(int vehicleID, IChromosome chromosome) 
+    public double CalcTotalDistance(int vehicleID, IChromosome chromosome) 
     {
         double totalDistance = 0.0;
         List<int> positions = GetPositions(vehicleID, chromosome);
@@ -60,7 +60,7 @@ public class VRPFitness : IFitness
         return totalDistance;      
     }
 
-    private double CalcTotalDemand(int vehicleID, IChromosome chromosome) 
+    public double CalcTotalDemand(int vehicleID, IChromosome chromosome) 
     {
         float totalDemand = 0.0f;
         List<int> positions = GetPositions(vehicleID, chromosome);
@@ -86,7 +86,7 @@ public class VRPFitness : IFitness
         return totalDemand;
     }
 
-    private List<int> GetPositions(int vehicleID, IChromosome chromosome)
+    public List<int> GetPositions(int vehicleID, IChromosome chromosome)
     {
         List<int> positions = new List<int>();
         for (int i = 0; i < depot.DropPoints.Count(); i++) 
