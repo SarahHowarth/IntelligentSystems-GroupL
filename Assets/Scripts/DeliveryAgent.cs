@@ -27,10 +27,6 @@ public class DeliveryAgent : MonoBehaviour
                 MoveToNextLocation();
                 DeliverPackages(currentLoc);
             }
-            else
-            {
-                RequestRoute();
-            }
         }
     }
 
@@ -117,11 +113,6 @@ public class DeliveryAgent : MonoBehaviour
         //assert contraints 
         
         //send to master routing agent via acl
-    }
-
-    public void RequestRoute()
-    {
-        //indicate via ACL
     }
 
     public void ReceiveRoute(ACLMessage message)

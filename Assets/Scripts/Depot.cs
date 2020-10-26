@@ -108,6 +108,7 @@ public class Depot :  MonoBehaviour
                 double demand = f.CalcTotalDemand(i, c);
                 Debug.Log("vehicle ID: " + i.ToString() + ", distance: " + distance.ToString() + ", demand: " + demand.ToString());
             }
+            SendRoutes();
         }
     }
 
@@ -173,19 +174,18 @@ public class Depot :  MonoBehaviour
             truckCapacity[agentID] = agentCapacity;
             constraintsReceived += 1;
         }
+
+        if (constraintsReceived == deliveryAgents.Count) 
+        {
+            StartGA();
+        }
     }
 
-    public void ReceiveRouteRequest(ACLMessage message)
-    {
-        //will be called by delivery agent 
-        //assign packages and send back message  
-        //calculate route and send back message 
-    }
-
-    public bool SendRoute()
+    public void SendRoutes()
     {
         //construct the ACL message and send the route to the DA 
-        return true;
+        
+        
     }
 
     private void AssignPackages(int agentID)
