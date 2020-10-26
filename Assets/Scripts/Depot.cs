@@ -83,6 +83,13 @@ public class Depot :  MonoBehaviour
         ga.GenerationRan += delegate
         {
             Debug.Log($"Generation: {ga.GenerationsNumber} - Fitness: ${ga.BestChromosome.Fitness}");
+            var c = ga.Population.CurrentGeneration.BestChromosome as VRPChromosome;
+            for (int i = 0; i < deliveryAgents.Count; i++)
+            {
+                double distance = fitness.CalcTotalDistance(i, c);
+                double demand = fitness.CalcTotalDemand(i, c);
+                Debug.Log("vehicle ID: " + i.ToString() + ", distance: " + distance.ToString() + ", demand: " + demand.ToString());
+            }
         };
 
         ga.TerminationReached += delegate
@@ -192,24 +199,36 @@ public class Depot :  MonoBehaviour
             routeMessage.Receiver = "delivery agent:" + dA.ID.ToString();
             routeMessage.Performative = "send route";
             routeMessage.GameObjectContent = routes[dA.ID];
-            SendPackages(dA.ID, g);
+            SendPackages(dA.ID, g, routes[dA.ID]);
             g.SendMessage("ReceiveRoute", routeMessage);
         }
     }
 
-    private void SendPackages(int agentID, GameObject agentObject)
+    private void SendPackages(int agentID, GameObject agentObject, List<GameObject> route)
     {
+        List<GameObject> allocatedPackages = new List<GameObject>();
         //construct the ACL message and send the packages to the DA 
         ACLMessage packageMessage = new ACLMessage();
         packageMessage.Sender = "depot";
         packageMessage.Receiver = "delivery agent:" + agentID.ToString();
         packageMessage.Performative = "send packages";
-
-
-        agentObject.SendMessage("ReceivePackages", packageMessage);
         //will need to child the package game object to the truck 
-
-        //loop through and remove assigned packages from packagesAtDepot list 
+        for(int i = 0; i < route.Count-1; i++) //last point is the depot so will get error if get component drop point
+        {
+            DropPoint dp = route[i].GetComponent<DropPoint>();
+            foreach (GameObject objectPackage in allPackages) 
+            {
+                Package p = objectPackage.GetComponent<Package>();
+                if (p.Destination = dp) 
+                {
+                    objectPackage.transform.SetParent(agentObject.transform, false);
+                    allocatedPackages.Add(objectPackage);
+                    packagesAtDepot.Remove(objectPackage);
+                }
+            }
+        }
+        packageMessage.GameObjectContent = allocatedPackages;
+        agentObject.SendMessage("ReceivePackages", packageMessage);
     }
 
     /// <summary>
