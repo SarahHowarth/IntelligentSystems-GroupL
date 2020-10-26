@@ -120,6 +120,11 @@ public class DeliveryAgent : MonoBehaviour
 
     }
 
+    public void ReceivePackages(ACLMessage message)
+    {
+
+    }
+
     /// <summary>
     /// Properties 
     /// </summary>

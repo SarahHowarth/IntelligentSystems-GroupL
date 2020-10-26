@@ -184,12 +184,29 @@ public class Depot :  MonoBehaviour
     public void SendRoutes()
     {
         //construct the ACL message and send the route to the DA 
-        
-        
+        ACLMessage routeMessage = new ACLMessage();
+        routeMessage.Sender = "depot";
+        foreach (GameObject g in deliveryAgents)
+        {
+            DeliveryAgent dA = g.GetComponent<DeliveryAgent>();
+            routeMessage.Receiver = "delivery agent:" + dA.ID.ToString();
+            routeMessage.Performative = "send route";
+            routeMessage.GameObjectContent = routes[dA.ID];
+            SendPackages(dA.ID, g);
+            g.SendMessage("ReceiveRoute", routeMessage);
+        }
     }
 
-    private void AssignPackages(int agentID)
+    private void SendPackages(int agentID, GameObject agentObject)
     {
+        //construct the ACL message and send the packages to the DA 
+        ACLMessage packageMessage = new ACLMessage();
+        packageMessage.Sender = "depot";
+        packageMessage.Receiver = "delivery agent:" + agentID.ToString();
+        packageMessage.Performative = "send packages";
+
+
+        agentObject.SendMessage("ReceivePackages", packageMessage);
         //will need to child the package game object to the truck 
 
         //loop through and remove assigned packages from packagesAtDepot list 

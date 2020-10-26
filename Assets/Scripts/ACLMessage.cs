@@ -108,7 +108,7 @@ public class ACLMessage : MonoBehaviour
     private bool CheckPerformative(string candidPerform)
     {
        
-        string[] performatives = { "request constraints", "send constraints", "send route" };
+        string[] performatives = { "request constraints", "send constraints", "send route", "send packages" };
         int i = 0;
         bool found = false;
 
