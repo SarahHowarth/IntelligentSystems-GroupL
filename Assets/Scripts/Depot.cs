@@ -201,6 +201,7 @@ public class Depot :  MonoBehaviour
             routeMessage.GameObjectContent = routes[dA.ID];
             SendPackages(dA.ID, g, routes[dA.ID]);
             g.SendMessage("ReceiveRoute", routeMessage);
+            vehiclesAtDepot.Remove(g);
         }
     }
 
