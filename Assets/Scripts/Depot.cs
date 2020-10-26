@@ -28,6 +28,7 @@ public class Depot :  MonoBehaviour
 
     private GeneticAlgorithm ga;
     private readonly int NUMBER_OF_GENERATIONS = 300;
+    private int constraintsReceived;
 
     private void Start()
     {
@@ -62,6 +63,7 @@ public class Depot :  MonoBehaviour
         vehiclesAtDepot = dAgent;
 
         //request constraints from delivery agents after setup
+        constraintsReceived = 0;
         RequestConstraints();
     }
     
@@ -136,10 +138,11 @@ public class Depot :  MonoBehaviour
     {
         ACLMessage constraintRequest = new ACLMessage();
         constraintRequest.Sender = "depot";
+        //request constraints from every delivery agent 
         foreach (GameObject g in deliveryAgents)
         {
             DeliveryAgent dA = g.GetComponent<DeliveryAgent>();
-            constraintRequest.Receiver = dA.ID.ToString();
+            constraintRequest.Receiver = "delivery agent:" + dA.ID.ToString();
             constraintRequest.Performative = "request constraints";
             constraintRequest.Content = "";//nothing to send just a request 
             g.SendMessage("ReceiveConstraintRequest", constraintRequest);
@@ -148,8 +151,28 @@ public class Depot :  MonoBehaviour
 
     public void ReceiveConstraints(ACLMessage message)
     {
-        //will be called by delivery agent
+        //check it's for me
+        if (message.Receiver != "depot") 
+        { 
+            return; 
+        }
+
+        //check it's from delivery agent
+        string[] splitString = message.Sender.Split(':');
+        if (splitString[0] != "delivery agent") 
+        {
+            return;
+        }
+
+        //check performative
         //assign to truck capacity dictionary based on sender id 
+        if (message.Performative == "send constraints") 
+        {
+            int agentID = int.Parse(splitString[1]);
+            float agentCapacity = float.Parse(message.Content);
+            truckCapacity[agentID] = agentCapacity;
+            constraintsReceived += 1;
+        }
     }
 
     public void ReceiveRouteRequest(ACLMessage message)
@@ -157,11 +180,6 @@ public class Depot :  MonoBehaviour
         //will be called by delivery agent 
         //assign packages and send back message  
         //calculate route and send back message 
-    }
-
-    public void SendPackages()
-    {
-        //construct the ACL message and send the assigned packages to the DA 
     }
 
     public bool SendRoute()
@@ -175,7 +193,6 @@ public class Depot :  MonoBehaviour
         //will need to child the package game object to the truck 
 
         //loop through and remove assigned packages from packagesAtDepot list 
-
     }
 
     /// <summary>
