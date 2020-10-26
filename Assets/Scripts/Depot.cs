@@ -62,9 +62,10 @@ public class Depot :  MonoBehaviour
         vehiclesAtDepot = dAgent;
 
         //request constraints from delivery agents after setup
-
+        RequestConstraints();
     }
-
+    
+    //Genetic algorithm VRP runner
     private void StartGA() 
     {
         var fitness = new VRPFitness(this);
@@ -91,6 +92,7 @@ public class Depot :  MonoBehaviour
         ga.Start();
     }
 
+    //gets the best routes once the GA is done
     private void GetBestRoutes(VRPChromosome c, VRPFitness f) 
     {
         if (c != null)
@@ -107,6 +109,7 @@ public class Depot :  MonoBehaviour
         }
     }
 
+    //formats the route ID's to a route of droppoint gameobjects 
     private void FormatRoute(int vehicleID, List<int> nRoute) 
     {
         List<GameObject> formattedRoute = new List<GameObject>();
@@ -126,30 +129,22 @@ public class Depot :  MonoBehaviour
         routes.Add(vehicleID, formattedRoute);
     }
 
-    public float GetVehicleCapacity(int ID) 
-    {
-        return truckCapacity[ID];
-    }
-
-    public float GetDropPointDemand(DropPoint dp) 
-    {
-        float dropPointDemand = 0.0f;
-
-        foreach (GameObject p in allPackages) 
-        {
-            Package thePackage = p.GetComponent<Package>();
-            if (thePackage.Destination == dp) 
-            {
-                dropPointDemand += thePackage.Weight;
-            }
-        }
-        return dropPointDemand;
-    }
-
     /// <summary>
     /// ACL functions
     /// </summary>
-    private void RequestConstraints() { }
+    private void RequestConstraints() 
+    {
+        ACLMessage constraintRequest = new ACLMessage();
+        constraintRequest.Sender = "depot";
+        foreach (GameObject g in deliveryAgents)
+        {
+            DeliveryAgent dA = g.GetComponent<DeliveryAgent>();
+            constraintRequest.Receiver = dA.ID.ToString();
+            constraintRequest.Performative = "request constraints";
+            constraintRequest.Content = "";//nothing to send just a request 
+            g.SendMessage("ReceiveConstraintRequest", constraintRequest);
+        }
+    }
 
     public void ReceiveConstraints(ACLMessage message)
     {
@@ -184,7 +179,7 @@ public class Depot :  MonoBehaviour
     }
 
     /// <summary>
-    /// properties
+    /// Properties
     /// </summary>
     public Transform Position 
     {
@@ -200,5 +195,25 @@ public class Depot :  MonoBehaviour
     public List<GameObject> DropPoints
     {
         get { return dropPoints; }
+    }
+
+    public float GetVehicleCapacity(int ID)
+    {
+        return truckCapacity[ID];
+    }
+
+    public float GetDropPointDemand(DropPoint dp)
+    {
+        float dropPointDemand = 0.0f;
+
+        foreach (GameObject p in allPackages)
+        {
+            Package thePackage = p.GetComponent<Package>();
+            if (thePackage.Destination == dp)
+            {
+                dropPointDemand += thePackage.Weight;
+            }
+        }
+        return dropPointDemand;
     }
 }

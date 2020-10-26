@@ -9,6 +9,7 @@ public class ACLMessage : MonoBehaviour
     private string receiver;
     private string performative;
     private string content;
+    private List<GameObject> gameObjectContent;
     private string aclMessage;
 
     public ACLMessage()
@@ -62,6 +63,7 @@ public class ACLMessage : MonoBehaviour
                 performative = value;
         }
     }
+
     public string Content
     {
         get
@@ -74,9 +76,20 @@ public class ACLMessage : MonoBehaviour
         }
     }
 
+    //just for temporary until we test, then will use Content to parse route ID's as a string
+    public List<GameObject> GameObjectContent
+    {
+        get
+        {
+            return gameObjectContent;
+        }
+        set
+        {
+            gameObjectContent = value;
+        }
+    }
 
- 
- public string AclMessage
+    public string AclMessage
     {
         get
         {
@@ -90,10 +103,11 @@ public class ACLMessage : MonoBehaviour
             return temp;
         }
     }
+
     private bool CheckPerformative(string candidPerform)
     {
        
-        string[] performatives = { "accept proposal", "agree", "request" };
+        string[] performatives = { "request constraints", "send constraints", "request route", "send route" };
         int i = 0;
         bool found = false;
 
@@ -109,6 +123,7 @@ public class ACLMessage : MonoBehaviour
         return found;
     }
 }
+
 class InvalidPerformativeException : System.Exception
 {
     public InvalidPerformativeException(string message) :

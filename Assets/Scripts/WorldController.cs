@@ -43,8 +43,7 @@ public class WorldController : MonoBehaviour
     }
 
     /// <summary>
-    /// UI to call to start simulation
-    /// returns true or false if can start 
+    /// UI Functions
     /// </summary>
     /// <returns></returns>
     public bool TryToStart()
@@ -57,6 +56,25 @@ public class WorldController : MonoBehaviour
         return true;
     }
 
+    public void Pause()
+    {
+        //go through agents and enable pause
+        for (int i = 0; i < deliveryVehicles.Count; i++)
+        {
+            deliveryVehicles[i].GetComponent<DeliveryAgent>().Pause();
+        }
+    }
+
+    public void Resume()
+    {
+        //go through agents and disable pause
+        for (int i = 0; i < deliveryVehicles.Count; i++)
+        {
+            deliveryVehicles[i].GetComponent<DeliveryAgent>().Resume();
+        }
+    }
+
+    //Setup and start
     private void StartSimulation()
     {
         //setup droppoints
@@ -72,10 +90,10 @@ public class WorldController : MonoBehaviour
         depotScript.Setup(dropPoints, deliveryVehicles, packages);
     }
 
+    //Setup vehicles and ensure there are enough
     private void SetupVehicles()
     {
         GameObject createdObject;
-
         //clear existing objects in case of recompute
         deliveryVehicles.Clear();
 
@@ -128,10 +146,12 @@ public class WorldController : MonoBehaviour
         }
     }
 
+    //checks there are enough trucks for the total package weight
     private bool CheckEnoughTrucks() 
     {
         float totalPackageWeight = 0.0f;
         int totalTruckWeight = 0;
+
         foreach (GameObject p in packages) 
         {
             totalPackageWeight += p.GetComponent<Package>().Weight;
@@ -148,11 +168,12 @@ public class WorldController : MonoBehaviour
         return true;
     }
 
+    //set packages to droppoints and set ID's
     private void SetupPackages() 
     {
-
         //clear existing objects in case of recompute
         packages.Clear();
+
         //add package prefab to drop point based on min and max
         foreach (GameObject dp in dropPoints) 
         {
@@ -174,7 +195,10 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    //properties
+    /// <summary>
+    /// Properties
+    /// </summary>
+    /// <returns></returns>
     public GameObject GetDepot() { return depot; }
 
     public List<GameObject> GetDeliveryVehicles() { return deliveryVehicles; }
@@ -182,29 +206,11 @@ public class WorldController : MonoBehaviour
     public List<GameObject> GetDropPoints() { return dropPoints; }
 
     ///ui manager to call to set the packages and vehicles from ui for initialisation
-    ///essentially just setting properties
     public void SetMaxPackages(int packages) 
     {
         numberOfPackagesMax = packages;
     }
 
-    public void Pause()
-    {
-        //go through agents and enable pause
-        for (int i = 0; i < deliveryVehicles.Count; i++)
-        {
-            deliveryVehicles[i].GetComponent<DeliveryAgent>().Pause();
-        }
-    }
-
-    public void Resume()
-    {
-        //go through agents and disable pause
-        for (int i = 0; i < deliveryVehicles.Count; i++)
-        {
-            deliveryVehicles[i].GetComponent<DeliveryAgent>().Resume();
-        }
-    }
     //extension functions for dynamic addition of packages etc.
     //will need to link to functions that update the simulation
     //public void AddDropPoint() { }
