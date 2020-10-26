@@ -25,7 +25,6 @@ public class Depot :  MonoBehaviour
     private Dictionary<int, List<GameObject>> routes; 
 
     private Transform position;
-    private LineRenderer lr;
 
     private GeneticAlgorithm ga;
     private readonly int NUMBER_OF_GENERATIONS = 300;
@@ -122,20 +121,9 @@ public class Depot :  MonoBehaviour
                 }
             }
         }
+        //adding depot as last object in the route so they return here
+        formattedRoute.Add(this.gameObject);
         routes.Add(vehicleID, formattedRoute);
-    }
-
-    public void DrawRoute(List<GameObject> route)
-    {
-        lr.positionCount = route.Count;
-
-        for (int i = 0; i < route.Count; i++)
-        {
-            DropPoint d = route[i].GetComponent<DropPoint>();
-            lr.SetPosition(i, d.Position.position);
-        }
-
-        lr.SetPosition(route.Count, route[0].GetComponent<DropPoint>().Position.position);
     }
 
     public float GetVehicleCapacity(int ID) 

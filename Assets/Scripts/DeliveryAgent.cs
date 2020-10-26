@@ -15,6 +15,7 @@ public class DeliveryAgent : MonoBehaviour
     private List<GameObject> route;
     private bool hasRoute;
     private bool paused;
+    private LineRenderer lr;
 
     //basically the constructor, just unity style
     public void Setup(VehicleType aType, Depot aDepot)
@@ -51,6 +52,18 @@ public class DeliveryAgent : MonoBehaviour
 
     }
 
+    public void DrawRoute(List<GameObject> route)
+    {
+        lr.positionCount = route.Count;
+
+        for (int i = 0; i < route.Count; i++)
+        {
+            lr.SetPosition(i, route[i].transform.position);
+        }
+
+        lr.SetPosition(route.Count, route[0].transform.position);
+    }
+
     public void DeliverPackages(Transform location)
     {
         foreach (GameObject p in packages)
@@ -65,6 +78,7 @@ public class DeliveryAgent : MonoBehaviour
             }          
         }
     }
+
 
     public void MoveToNextLocation()
     {
