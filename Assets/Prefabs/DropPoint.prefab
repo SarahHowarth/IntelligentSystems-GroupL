@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3221903643006944129}
   - component: {fileID: 444524973052172197}
-  - component: {fileID: 8367441560665988316}
   - component: {fileID: 8849464021587381280}
   m_Layer: 0
   m_Name: DropPoint
@@ -48,22 +47,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 7.75, y: 11.04, z: 20.1}
   m_Center: {x: 0, y: 5, z: -3.4}
---- !u!114 &8367441560665988316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2392337116326793390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 0
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!114 &8849464021587381280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +144,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7032543752958890546, guid: 6aad3078276ab4d47916c4d88e1722cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6aad3078276ab4d47916c4d88e1722cd, type: 3}
 --- !u!4 &7905831306684001884 stripped
 Transform:

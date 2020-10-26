@@ -16,7 +16,6 @@ public class WorldController : MonoBehaviour
     [SerializeField] private GameObject truckPrefab;
     [SerializeField] private GameObject packagePrefab;
     //[SerializeField] private GameObject dropPointPrefab = default;
-    [SerializeField] private NavMeshSurface navMesh = default;
 
     //ai private data
     [SerializeField] private GameObject depot = default;
@@ -60,10 +59,6 @@ public class WorldController : MonoBehaviour
 
     private void StartSimulation()
     {
-
-        
-
-
         //setup droppoints
         for (int i = 0; i < dropPoints.Count; i++)
         {
@@ -72,8 +67,6 @@ public class WorldController : MonoBehaviour
         //setup delivery agents
         SetupPackages();
         SetupVehicles();
-        //rebake navmesh
-
         //intialise master routing agent with the private ai data so they can start
         Depot depotScript = depot.GetComponent<Depot>();
         depotScript.Setup(dropPoints, deliveryVehicles, packages);
@@ -139,7 +132,6 @@ public class WorldController : MonoBehaviour
     {
         float totalPackageWeight = 0.0f;
         int totalTruckWeight = 0;
-
         foreach (GameObject p in packages) 
         {
             totalPackageWeight += p.GetComponent<Package>().Weight;
@@ -154,7 +146,6 @@ public class WorldController : MonoBehaviour
             return false; 
         }
         return true;
-
     }
 
     private void SetupPackages() 
@@ -162,8 +153,6 @@ public class WorldController : MonoBehaviour
 
         //clear existing objects in case of recompute
         packages.Clear();
-
-
         //add package prefab to drop point based on min and max
         foreach (GameObject dp in dropPoints) 
         {
@@ -176,7 +165,6 @@ public class WorldController : MonoBehaviour
                 packages.Add(newPackage);
             } 
         }
-
         //setup package ID's and weight
         for (int i = 0; i < packages.Count; i++) 
         {
