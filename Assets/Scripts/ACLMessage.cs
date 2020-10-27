@@ -10,11 +10,9 @@ public class ACLMessage : MonoBehaviour
     private string performative;
     private string content;
     private List<GameObject> gameObjectContent;
-    private string aclMessage;
 
     public ACLMessage()
     {
-        aclMessage = "";
         sender = "";
         receiver = "";
         performative = "";

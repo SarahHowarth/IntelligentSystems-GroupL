@@ -15,7 +15,7 @@ public class DeliveryAgent : MonoBehaviour
     private List<GameObject> route;
     private bool hasRoute;
     private bool paused;
-    private LineRenderer lr;
+    [SerializeField]private LineRenderer lineRendererComponent = default;
 
     // Update is called once per frame
     void Update()
@@ -54,14 +54,14 @@ public class DeliveryAgent : MonoBehaviour
     /// <param name="route">the route list of gameobjects</param>
     public void DrawRoute(List<GameObject> route)
     {
-        lr.positionCount = route.Count;
+        lineRendererComponent.positionCount = route.Count;
 
         for (int i = 0; i < route.Count; i++)
         {
-            lr.SetPosition(i, route[i].transform.position);
+            lineRendererComponent.SetPosition(i, route[i].transform.position);
         }
 
-        lr.SetPosition(route.Count, route[0].transform.position);
+        lineRendererComponent.SetPosition(route.Count, route[0].transform.position);
     }
 
     /// <summary>

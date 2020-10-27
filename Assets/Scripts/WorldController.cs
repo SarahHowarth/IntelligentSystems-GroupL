@@ -10,11 +10,11 @@ public class WorldController : MonoBehaviour
     public static WorldController Instance => instance;
 
     //prefabs to spawn + navmesh
-    [SerializeField] private GameObject sedanPrefab;
-    [SerializeField] private GameObject utePrefab;
-    [SerializeField] private GameObject vanPrefab;
-    [SerializeField] private GameObject truckPrefab;
-    [SerializeField] private GameObject packagePrefab;
+    [SerializeField] private GameObject sedanPrefab = default;
+    [SerializeField] private GameObject utePrefab = default;
+    [SerializeField] private GameObject vanPrefab = default;
+    [SerializeField] private GameObject truckPrefab = default;
+    [SerializeField] private GameObject packagePrefab = default;
     //[SerializeField] private GameObject dropPointPrefab = default;
 
     //ai private data
