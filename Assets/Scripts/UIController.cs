@@ -23,13 +23,8 @@ public class UIController : MonoBehaviour
     //UI buttons
     public Button startToggle;
     public Button recompute;
-<<<<<<< HEAD
     /*public Button upDelAgents;
     public Button downDelAgents;*/
-=======
-    //public Button upDelAgents;
-    //public Button downDelAgents;
->>>>>>> ce0bb886610e306d1a3b8653dc7fd58c257eaff6
     public Button upDels;
     public Button downDels;
 
