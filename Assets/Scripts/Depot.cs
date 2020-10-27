@@ -14,15 +14,15 @@ using UnityEngine.Events;
 
 public class Depot :  MonoBehaviour
 {
-    private List<GameObject> deliveryAgents;
-    private List<GameObject> vehiclesAtDepot;
-    private Dictionary<int, float> truckCapacity;
+    private List<GameObject> deliveryAgents = new List<GameObject>();
+    private List<GameObject> vehiclesAtDepot = new List<GameObject>();
+    private Dictionary<int, float> truckCapacity = new Dictionary<int, float>();
 
-    private List<GameObject> allPackages;
-    private List<GameObject> packagesAtDepot;
-    private List<GameObject> dropPoints;
+    private List<GameObject> allPackages = new List<GameObject>();
+    private List<GameObject> packagesAtDepot = new List<GameObject>();
+    private List<GameObject> dropPoints = new List<GameObject>();
 
-    private Dictionary<int, List<GameObject>> routes; 
+    private Dictionary<int, List<GameObject>> routes = new Dictionary<int, List<GameObject>>(); 
 
     private Transform position;
 

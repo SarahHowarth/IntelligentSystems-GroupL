@@ -19,9 +19,9 @@ public class WorldController : MonoBehaviour
 
     //ai private data
     [SerializeField] private GameObject depot = default;
-    [SerializeField] private List<GameObject> dropPoints;
-    private List<GameObject> deliveryVehicles;
-    private List<GameObject> packages;
+    [SerializeField] private List<GameObject> dropPoints = default;
+    private List<GameObject> deliveryVehicles = new List<GameObject>();
+    private List<GameObject> packages = new List<GameObject>();
 
     //data from UI
     //private int numberOfDropPoints = 0;
@@ -34,7 +34,7 @@ public class WorldController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (instance != null && instance != this)
             Destroy(this);
