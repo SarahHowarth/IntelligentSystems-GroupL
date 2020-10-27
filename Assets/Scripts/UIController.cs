@@ -8,11 +8,13 @@ public class UIController : MonoBehaviour
 {
 
     //singleton
-    private static UIController Instance => Instance;
+    public static UIController Instance => Instance;
 
     //text that will change
     public Text timerText;
-    public Text fitnessMetric;
+    public Text fitnessDemand;
+    public Text fitnessDistance;
+    public Text fitnessGenerations;
     public Text maxParcelsPerPt;
     //images to toggle the start button between
     public Sprite spriteStopped;
@@ -113,6 +115,17 @@ public class UIController : MonoBehaviour
     /* for potential extension, void SetDelAgents() { }*/
     void SetDels() {
         WorldController.Instance.SetMaxPackages(Int32.Parse(maxParcelsPerPt.text));
+    }
+
+    public void SetFitness(double totalDemand, double totalDistance)
+    {
+        fitnessDistance.text = totalDistance.ToString();
+        fitnessDemand.text = totalDemand.ToString();
+    }
+
+    public void NumberGenerations(int gens)
+    {
+        fitnessGenerations.text = gens.ToString();
     }
 
     //worldcontroller.intance().

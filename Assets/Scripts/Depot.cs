@@ -79,9 +79,12 @@ public class Depot :  MonoBehaviour
 
         ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
         ga.Termination = new GenerationNumberTermination(NUMBER_OF_GENERATIONS);
+        UIController.Instance.NumberGenerations(NUMBER_OF_GENERATIONS);
 
         ga.GenerationRan += delegate
         {
+            double totalDemand = 0;
+            double totalDistance = 0;
             Debug.Log($"Generation: {ga.GenerationsNumber} - Fitness: ${ga.BestChromosome.Fitness}");
             var c = ga.Population.CurrentGeneration.BestChromosome as VRPChromosome;
             for (int i = 0; i < deliveryAgents.Count; i++)
@@ -89,7 +92,10 @@ public class Depot :  MonoBehaviour
                 double distance = fitness.CalcTotalDistance(i, c);
                 double demand = fitness.CalcTotalDemand(i, c);
                 Debug.Log("vehicle ID: " + i.ToString() + ", distance: " + distance.ToString() + ", demand: " + demand.ToString());
+                totalDemand += demand;
+                totalDistance += distance;
             }
+            UIController.Instance.SetFitness(totalDemand, totalDistance);
         };
 
         ga.TerminationReached += delegate
