@@ -2,20 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 public class DeliveryAgent : MonoBehaviour
 {
     private int agentID;
-    //private World world; - can do world.instance() instead if needed?
     private List<GameObject> packages;//List<Package> packages;
     private VehicleType type;
     private Depot depot;
-    private Transform currentLoc;
     private List<GameObject> route;
     private bool hasRoute;
     private bool paused;
     [SerializeField]private LineRenderer lineRendererComponent = default;
+
+    public float speed = 2.0f;
+    public Rigidbody rb;
 
     // Update is called once per frame
     void Update()
@@ -25,7 +27,7 @@ public class DeliveryAgent : MonoBehaviour
             if (hasRoute)
             {
                 if (MoveToNextLocation())
-                    DeliverPackages(currentLoc);
+                    DeliverPackages();
             }
         }
     }
@@ -35,7 +37,7 @@ public class DeliveryAgent : MonoBehaviour
     {
         type = aType;
         depot = aDepot;
-        currentLoc = depot.Position;
+        rb = GetComponent<Rigidbody>();
     }
 
     public void Pause()
@@ -68,12 +70,13 @@ public class DeliveryAgent : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="location"></param>
-    public void DeliverPackages(Transform location)
+    public void DeliverPackages()
     {
         foreach (GameObject p in packages)
         {
             DropPoint destination = p.GetComponent<Package>().Destination;
-            if (destination.Position == location)
+            //check if within distance threshold
+            if (Vector3.Distance(destination.Position.position, transform.position) <= 0.5)
             {
                 //deliver package to destination
                 destination.DeliverPackageHere(p);
@@ -88,13 +91,29 @@ public class DeliveryAgent : MonoBehaviour
     /// </summary>
     public bool MoveToNextLocation()
     {
+        //return true if destination reached
+        if (Vector3.Distance(packages[0].transform.position, transform.position) <= 0.5)
+        {
+            return true;
+        }
 
-        //return false if still moving
+        //difference in target and self positions to get direction of next point
+        Vector3 diff = packages[0].transform.position - transform.position;
+
+        //get direction of next point, normalise and multiply by speed for directed movement vector
+        Vector3 dir = diff.normalized * speed;
+
+        //Set the direction the vehicle faces
+        // the second argument, upwards, defaults to Vector3.up
+        Quaternion rotation = Quaternion.LookRotation(diff, Vector3.up);
+        transform.rotation = rotation;
+
+        //may need to be rb.vector = dir;
+        rb.MovePosition(dir);
         return false;
 
-/*
-        //return true if destination reached
-        return true;*/
+
+        
     }
 
     /// <summary>
@@ -179,10 +198,6 @@ public class DeliveryAgent : MonoBehaviour
     /// Properties 
     /// </summary>
     /// <returns></returns>
-    public Transform GetLocation()
-    {
-        return currentLoc;
-    }
 
     public int ID 
     { 
