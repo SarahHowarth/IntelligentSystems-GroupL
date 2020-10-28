@@ -28,7 +28,7 @@ public class VRPChromosome : ChromosomeBase
 
     public override Gene GenerateGene(int geneIndex)
     {
-        return new Gene(RandomizationProvider.Current.GetInt(0, numberOfVehicles));
+        return new Gene(RandomizationProvider.Current.GetInt(0, numberOfVehicles)); //excludes max value but includes min value
     }
 
     public override IChromosome CreateNew()

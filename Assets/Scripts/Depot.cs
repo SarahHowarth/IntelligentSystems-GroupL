@@ -11,6 +11,7 @@ using GeneticSharp.Domain;
 using GeneticSharp.Domain.Terminations;
 using UnityEngine.UIElements;
 using UnityEngine.Events;
+using System.Linq;
 
 public class Depot :  MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class Depot :  MonoBehaviour
     {
         var fitness = new VRPFitness(this);
         var chromosome = new VRPChromosome(dropPoints.Count, deliveryAgents.Count);
-        var crossover = new OrderedCrossover();
+        var crossover = new TwoPointCrossover();
         var mutation = new ReverseSequenceMutation();
         var selection = new RouletteWheelSelection();
         var population = new Population(50, 100, chromosome);
@@ -148,7 +149,7 @@ public class Depot :  MonoBehaviour
         ACLMessage constraintRequest = new ACLMessage();
         constraintRequest.Sender = "depot";
         //request constraints from every delivery agent 
-        foreach (GameObject g in deliveryAgents)
+        foreach (GameObject g in deliveryAgents.ToList())
         {
             DeliveryAgent dA = g.GetComponent<DeliveryAgent>();
             constraintRequest.Receiver = "delivery agent:" + dA.ID.ToString();
@@ -194,7 +195,7 @@ public class Depot :  MonoBehaviour
         //construct the ACL message and send the route to the DA 
         ACLMessage routeMessage = new ACLMessage();
         routeMessage.Sender = "depot";
-        foreach (GameObject g in deliveryAgents)
+        foreach (GameObject g in deliveryAgents.ToList())
         {
             DeliveryAgent dA = g.GetComponent<DeliveryAgent>();
             routeMessage.Receiver = "delivery agent:" + dA.ID.ToString();
@@ -219,7 +220,7 @@ public class Depot :  MonoBehaviour
         {
             if (route[i].TryGetComponent(out DropPoint dp))
             {
-                foreach (GameObject objectPackage in allPackages)
+                foreach (GameObject objectPackage in allPackages.ToList())
                 {
                     Package p = objectPackage.GetComponent<Package>();
                     if (p.Destination = dp)

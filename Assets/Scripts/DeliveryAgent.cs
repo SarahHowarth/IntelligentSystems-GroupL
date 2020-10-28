@@ -56,7 +56,7 @@ public class DeliveryAgent : MonoBehaviour
     /// <param name="route">the route list of gameobjects</param>
     private void DrawRoute()
     {
-        lineRendererComponent.positionCount = route.Count;
+        lineRendererComponent.positionCount = route.Count+1;
 
         for (int i = 0; i < route.Count; i++)
         {
@@ -157,7 +157,7 @@ public class DeliveryAgent : MonoBehaviour
 
         //populate route
         route = message.GameObjectContent;
-        hasRoute = true;
+        //hasRoute = true;
         DrawRoute();
     }
 
