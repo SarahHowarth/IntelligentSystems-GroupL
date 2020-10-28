@@ -24,8 +24,8 @@ public class DeliveryAgent : MonoBehaviour
         {
             if (hasRoute)
             {
-                MoveToNextLocation();
-                DeliverPackages(currentLoc);
+                if (MoveToNextLocation())
+                    DeliverPackages(currentLoc);
             }
         }
     }
@@ -86,9 +86,15 @@ public class DeliveryAgent : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public void MoveToNextLocation()
+    public bool MoveToNextLocation()
     {
 
+        //return false if still moving
+        return false;
+
+
+        //return true if destination reached
+        return true;
     }
 
     /// <summary>
@@ -96,33 +102,76 @@ public class DeliveryAgent : MonoBehaviour
     /// </summary>
     public void ReceiveConstraintRequest(ACLMessage message) 
     {
-        //check I am the receiver
-
-        //check depot is the sender
+        //check send/recievers
+        if (!CheckAddresses(message))
+            return;
 
         //check performative
         if (message.Performative == "request constraints") 
         {
-            SendConstraints();
+            SendConstraints(message);
         }
     }
 
-    public void SendConstraints()
+    public void SendConstraints(ACLMessage request)
     {
-        ACLMessage message = new ACLMessage();
+        //create message with constraint content.
+        ACLMessage constraintMessage = new ACLMessage();
+        constraintMessage.Sender = request.Receiver;
+        constraintMessage.Receiver = request.Sender;
+        constraintMessage.Performative = "send constraints";
+
         //assert contraints 
-        
+        constraintMessage.Content = type.ToString();
+
         //send to master routing agent via acl
+        depot.SendMessage("RecieveConstraints", constraintMessage);
     }
 
     public void ReceiveRoute(ACLMessage message)
     {
+        //check send/recievers
+        if (!CheckAddresses(message))
+            return;
+
+        //assert that the message is the route information
+        if(message.Performative != "send route")
+            return;
+
+        //populate route
+        route = message.GameObjectContent;
 
     }
 
     public void ReceivePackages(ACLMessage message)
     {
+        //check send/recievers
+        if (!CheckAddresses(message))
+            return;
 
+        //assert that the message is package gameObjects
+        if (message.Performative != "send packages")
+            return;
+
+        //load packages to DA
+        packages = message.GameObjectContent;
+    }
+
+    public bool CheckAddresses(ACLMessage message)
+    {
+        //check its for me
+        if (message.Receiver != "delivery agent:" + ID.ToString())
+        {
+            return false;
+        }
+
+        //check it's from the Depot
+        if (message.Sender != "depot")
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>

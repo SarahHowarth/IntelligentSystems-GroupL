@@ -135,7 +135,10 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //pause everything, stopped is starting state
         Time.timeScale = 0;
+        WorldController.Instance.Pause();
+
         //On click - run corresponding function for each button
         recompute.GetComponent<Button>().onClick.AddListener(Recompute);
         startToggle.GetComponent<Button>().onClick.AddListener(ToggleStart);
