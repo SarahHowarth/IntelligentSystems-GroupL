@@ -233,7 +233,7 @@ public class Depot :  MonoBehaviour
             }
             else 
             {
-                Debug.LogWarning("No Drop Point Here: route index: " + i.ToString() + "agent id: " + agentID.ToString());
+                Debug.LogWarning("No Drop Point Here: route index: " + i.ToString() + " agent id: " + agentID.ToString());
             }
         }
         packageMessage.GameObjectContent = allocatedPackages;

@@ -56,14 +56,18 @@ public class DeliveryAgent : MonoBehaviour
     /// <param name="route">the route list of gameobjects</param>
     private void DrawRoute()
     {
-        lineRendererComponent.positionCount = route.Count+1;
+        lineRendererComponent.positionCount = route.Count + 1;
+        Vector3 depotPosition = new Vector3(0, 0, 0);
 
+        //set start of line renderer
+        lineRendererComponent.SetPosition(0, depotPosition);
+
+        //draw route
+        //end of route is already depot so don't need to add in end
         for (int i = 0; i < route.Count; i++)
         {
-            lineRendererComponent.SetPosition(i, route[i].transform.position);
+            lineRendererComponent.SetPosition(i + 1, route[i].transform.position);
         }
-
-        lineRendererComponent.SetPosition(route.Count, route[0].transform.position);
     }
 
     /// <summary>
