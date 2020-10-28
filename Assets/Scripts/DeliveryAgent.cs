@@ -92,9 +92,9 @@ public class DeliveryAgent : MonoBehaviour
         //return false if still moving
         return false;
 
-
+/*
         //return true if destination reached
-        return true;
+        return true;*/
     }
 
     /// <summary>
@@ -121,11 +121,12 @@ public class DeliveryAgent : MonoBehaviour
         constraintMessage.Receiver = request.Sender;
         constraintMessage.Performative = "send constraints";
 
-        //assert contraints 
-        constraintMessage.Content = type.ToString();
+        //assert contraints (cast to int to avoid sending "truck" etc.)
+        int content = (int) type;
+        constraintMessage.Content = content.ToString();
 
         //send to master routing agent via acl
-        depot.SendMessage("RecieveConstraints", constraintMessage);
+        depot.SendMessage("ReceiveConstraints", constraintMessage);
     }
 
     public void ReceiveRoute(ACLMessage message)

@@ -8,7 +8,8 @@ public class UIController : MonoBehaviour
 {
 
     //singleton
-    public static UIController Instance => Instance;
+    private static UIController instance = null;
+    public static UIController Instance => instance;
 
     //text that will change
     public Text timerText;
@@ -130,6 +131,15 @@ public class UIController : MonoBehaviour
     public void NumberGenerations(int gens)
     {
         fitnessGenerations.text = gens.ToString();
+    }
+
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+            Destroy(this);
+
+        instance = this;
     }
 
     // Start is called before the first frame update
