@@ -25,10 +25,7 @@ public class UIController : MonoBehaviour
     public Button recompute;
     /*public Button upDelAgents;
     public Button downDelAgents;*/
-<<<<<<< HEAD
 
-=======
->>>>>>> 7204220b22d02ab46c29263a46bf20055dff4ed0
     public Button upDels;
     public Button downDels;
 
