@@ -23,13 +23,9 @@ public class UIController : MonoBehaviour
     //UI buttons
     public Button startToggle;
     public Button recompute;
-<<<<<<< HEAD
     /*public Button upDelAgents;
     public Button downDelAgents;*/
-=======
-    //public Button upDelAgents;
-    //public Button downDelAgents;
->>>>>>> ce0bb886610e306d1a3b8653dc7fd58c257eaff6
+
     public Button upDels;
     public Button downDels;
 
@@ -44,14 +40,16 @@ public class UIController : MonoBehaviour
 
     void Recompute() {
         startTime = Time.time;
+        Debug.Log("in recompute.");
         SetDels();
         WorldController.Instance.TryToStart();
-
-        //pauses the simulaion, ready to start when user hits the start button
+        Debug.Log("world executed try to start");
+        //pauses the simulation, ready to start when user hits the start button
         mode = Modes.twoSpeed;
         ToggleStart();
     }
     void ToggleStart() {
+        Debug.Log("reached mode switch.");
         switch (mode)
         {
             case Modes.stopped:
@@ -99,6 +97,7 @@ public class UIController : MonoBehaviour
 
     //increment the maximum parcels for delivery
     void IncrementDeliveries() {
+        Debug.Log("Button up called.");
         if ((maxParcelsPerPt != null) && (maxParcelsPerPt.text != "3"))
         {
             int val = (Int32.Parse(maxParcelsPerPt.text)) + 1;
@@ -133,10 +132,10 @@ public class UIController : MonoBehaviour
         fitnessGenerations.text = gens.ToString();
     }
 
-    //worldcontroller.intance().
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 0;
         //On click - run corresponding function for each button
         recompute.GetComponent<Button>().onClick.AddListener(Recompute);
         startToggle.GetComponent<Button>().onClick.AddListener(ToggleStart);
@@ -148,9 +147,10 @@ public class UIController : MonoBehaviour
         
         upDels.GetComponent<Button>().onClick.AddListener(IncrementDeliveries);
         downDels.GetComponent<Button>().onClick.AddListener(DecrementDeliveries);
-        
+        Debug.Log("Button Listeners Added.");
         //compute based on initial/default values
         Recompute();
+        Debug.Log("Recompute Exited.");
     }
 
     // Update is called once per frame

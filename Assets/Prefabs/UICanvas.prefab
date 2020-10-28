@@ -811,7 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -860,8 +860,6 @@ MonoBehaviour:
   spriteTwoSpeed: {fileID: 21300000, guid: 4fbbc324cc48dcd45aaf43d5e7950f65, type: 3}
   startToggle: {fileID: 7045683486478247230}
   recompute: {fileID: 7045683488007175497}
-  upDelAgents: {fileID: 0}
-  downDelAgents: {fileID: 0}
   upDels: {fileID: 7045683487065518711}
   downDels: {fileID: 7045683485918428646}
 --- !u!1 &7045683488007175503
