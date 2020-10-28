@@ -54,7 +54,7 @@ public class DeliveryAgent : MonoBehaviour
     /// Draw the route with a linerenderer
     /// </summary>
     /// <param name="route">the route list of gameobjects</param>
-    public void DrawRoute(List<GameObject> route)
+    private void DrawRoute()
     {
         lineRendererComponent.positionCount = route.Count;
 
@@ -70,13 +70,13 @@ public class DeliveryAgent : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="location"></param>
-    public void DeliverPackages()
+    private void DeliverPackages()
     {
         foreach (GameObject p in packages)
         {
             DropPoint destination = p.GetComponent<Package>().Destination;
             //check if within distance threshold
-            if (Vector3.Distance(destination.Position.position, transform.position) <= 0.5)
+            if (Vector3.Distance(destination.transform.position, transform.position) <= 0.5)
             {
                 //deliver package to destination
                 destination.DeliverPackageHere(p);
@@ -89,7 +89,7 @@ public class DeliveryAgent : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public bool MoveToNextLocation()
+    private bool MoveToNextLocation()
     {
         //return true if destination reached
         if (Vector3.Distance(packages[0].transform.position, transform.position) <= 0.5)
@@ -110,10 +110,7 @@ public class DeliveryAgent : MonoBehaviour
 
         //may need to be rb.vector = dir;
         rb.MovePosition(dir);
-        return false;
-
-
-        
+        return false;       
     }
 
     /// <summary>
@@ -160,7 +157,8 @@ public class DeliveryAgent : MonoBehaviour
 
         //populate route
         route = message.GameObjectContent;
-
+        hasRoute = true;
+        DrawRoute();
     }
 
     public void ReceivePackages(ACLMessage message)

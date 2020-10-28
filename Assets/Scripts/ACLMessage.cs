@@ -62,6 +62,7 @@ public class ACLMessage : MonoBehaviour
         }
     }
 
+    //for string content
     public string Content
     {
         get
@@ -74,7 +75,7 @@ public class ACLMessage : MonoBehaviour
         }
     }
 
-    //just for temporary until we test, then will use Content to parse route ID's as a string
+    //for game object content - routes and packages
     //can use string to pass the constraints
     public List<GameObject> GameObjectContent
     {

@@ -8,6 +8,9 @@ using GeneticSharp.Domain.Randomizations;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// VRP Fitness function
+/// </summary>
 public class VRPFitness : IFitness
 {
     private readonly int OVERLOADED_TRUCK_PENALTY = 300;
@@ -20,10 +23,11 @@ public class VRPFitness : IFitness
         depot = d;
     }
 
+    //Fitness evaluator
     public double Evaluate(IChromosome chromosome)
     {
         int numberOfVehicles = depot.DeliveryAgents.Count();
-        double fitness = 0;
+        double fitness = 0.0;
         
         for (int i = 0; i < numberOfVehicles; i++) 
         {
@@ -39,19 +43,19 @@ public class VRPFitness : IFitness
         return fitness;
     }
 
+    //calculate total distance for truck
     public double CalcTotalDistance(int vehicleID, IChromosome chromosome) 
     {
         double totalDistance = 0.0;
         List<int> positions = GetPositions(vehicleID, chromosome);
-        Vector3 depotPosition = depot.Position.position;
+        Vector3 depotPosition = depot.transform.position;
         Vector3 lastVisited = depotPosition;
 
         foreach (int p in positions) 
         {
-            GameObject dropPointObject = depot.DropPoints[p];
-            DropPoint dp = dropPointObject.GetComponent<DropPoint>();
-            totalDistance += Vector3.Distance(lastVisited, dp.Position.position);
-            lastVisited = dp.Position.position;
+            GameObject dropPoint = depot.DropPoints[p];
+            totalDistance += Vector3.Distance(lastVisited, dropPoint.transform.position);
+            lastVisited = dropPoint.transform.position;
         }
 
         //return to depot
@@ -60,6 +64,7 @@ public class VRPFitness : IFitness
         return totalDistance;      
     }
 
+    //calculate total deman for truck
     public double CalcTotalDemand(int vehicleID, IChromosome chromosome) 
     {
         float totalDemand = 0.0f;
@@ -94,7 +99,7 @@ public class VRPFitness : IFitness
             int value = (int)chromosome.GetGene(i).Value;
             if (value == vehicleID) 
             {
-                positions.Add(value);
+                positions.Add(i);
             }
         }
 

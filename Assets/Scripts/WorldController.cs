@@ -26,8 +26,9 @@ public class WorldController : MonoBehaviour
     //data from UI
     //private int numberOfDropPoints = 0;
     //private int numberOfDeliveryAgents = 0;
-    private int numberOfPackagesMin = 1;//randomly assign number of packages to droppoints in MRA based on mix and max
+    private int numberOfPackagesMin = 1;
     private int numberOfPackagesMax = 1;
+
     //data for initialisation
     private const float PACKAGE_WEIGHT_MIN = 0.5f;
     private const float PACKAGE_WEIGHT_MAX = 5.0f;
@@ -98,7 +99,7 @@ public class WorldController : MonoBehaviour
         deliveryVehicles.Clear();
 
         //add 3 of each vehicle for first initialisation
-        for (int i = 0; i <= 3; i++) 
+        for (int i = 0; i < 3; i++) 
         {
             createdObject = Instantiate(sedanPrefab, depot.transform.position, depot.transform.rotation);
             DeliveryAgent createdObjectScript = createdObject.GetComponent<DeliveryAgent>();
@@ -106,7 +107,7 @@ public class WorldController : MonoBehaviour
             deliveryVehicles.Add(createdObject);
         }
 
-        for (int i = 0; i <= 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             createdObject = Instantiate(utePrefab, depot.transform.position, depot.transform.rotation);
             DeliveryAgent createdObjectScript = createdObject.GetComponent<DeliveryAgent>();
@@ -114,7 +115,7 @@ public class WorldController : MonoBehaviour
             deliveryVehicles.Add(createdObject);
         }
 
-        for (int i = 0; i <= 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             createdObject = Instantiate(vanPrefab, depot.transform.position, depot.transform.rotation);
             DeliveryAgent createdObjectScript = createdObject.GetComponent<DeliveryAgent>();
@@ -122,7 +123,7 @@ public class WorldController : MonoBehaviour
             deliveryVehicles.Add(createdObject);
         }
 
-        for (int i = 0; i <= 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             createdObject = Instantiate(truckPrefab, depot.transform.position, depot.transform.rotation);
             DeliveryAgent createdObjectScript = createdObject.GetComponent<DeliveryAgent>();

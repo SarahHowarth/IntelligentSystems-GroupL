@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class VRPChromosome : ChromosomeBase
 {
-    private readonly int numberOfDropPoints; //is the graph dimension essentially
-    private readonly int numberOfVehicles;
+    private readonly int numberOfDropPoints; //chromosome length
+    private readonly int numberOfVehicles; //gene variable
 
     /// <summary>
     /// intialise chromosome to create gene data
@@ -26,9 +26,6 @@ public class VRPChromosome : ChromosomeBase
 
     }
 
-    public double Distance { get; internal set; }
-
-
     public override Gene GenerateGene(int geneIndex)
     {
         return new Gene(RandomizationProvider.Current.GetInt(0, numberOfVehicles));
@@ -46,4 +43,6 @@ public class VRPChromosome : ChromosomeBase
 
         return clone;
     }
+
+    public double Distance { get; internal set; }
 }

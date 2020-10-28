@@ -5,17 +5,8 @@ using UnityEngine;
 
 public class DropPoint : MonoBehaviour
 {
-    //priv fields
-    private Transform position;
     private int id;
     private List<GameObject> packages = new List<GameObject>();
-
-    private void Start()
-    {
-        //retrieve the position when the droppoint is spawned 
-        //will set ID on spawn with property
-        position = this.transform;
-    }
 
     // Methods
     public void DeliverPackageHere(GameObject package)
@@ -38,17 +29,4 @@ public class DropPoint : MonoBehaviour
             id = value;
         }
     }
-
-    public Transform Position
-    {
-        get
-        {
-            return position;
-        }
-        set
-        {
-            position = value;
-        }
-    }
-
 }

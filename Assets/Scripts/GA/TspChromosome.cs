@@ -6,6 +6,7 @@ using UnityEngine;
 
 /// <summary>
 /// heavily adapted from https://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/
+/// TSP Chromosome for DA
 /// </summary>
 public class TspChromosome : ChromosomeBase
 {

@@ -12,6 +12,7 @@ using GeneticSharp.Domain.Terminations;
 
 /// <summary>
 /// heavily adapted from https://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/
+/// TSP GA runner 
 /// </summary>
 public class TspController : MonoBehaviour
 {

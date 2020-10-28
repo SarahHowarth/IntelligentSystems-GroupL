@@ -10,6 +10,7 @@ using UnityEngine;
 
 /// <summary>
 /// heavily adapted from https://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/
+/// TSP Fitness evaluator for DA
 /// </summary>
 public class TspFitness : IFitness
 {
@@ -64,6 +65,6 @@ public class TspFitness : IFitness
 
     private static double CalcDistanceTwoCities(DropPoint one, DropPoint two) 
     {
-        return Vector3.Distance(one.Position.position, two.Position.position);
+        return Vector3.Distance(one.transform.position, two.transform.position);
     }
 }

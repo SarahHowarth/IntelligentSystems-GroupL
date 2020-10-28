@@ -24,16 +24,9 @@ public class Depot :  MonoBehaviour
 
     private Dictionary<int, List<GameObject>> routes = new Dictionary<int, List<GameObject>>(); 
 
-    private Transform position;
-
     private GeneticAlgorithm ga;
     private readonly int NUMBER_OF_GENERATIONS = 300;
     private int constraintsReceived;
-
-    private void Start()
-    {
-        position = this.gameObject.transform;
-    }
 
     /// <summary>
     /// Called by the world controller to setup all the data 
@@ -77,6 +70,7 @@ public class Depot :  MonoBehaviour
         var selection = new RouletteWheelSelection();
         var population = new Population(50, 100, chromosome);
 
+        //setup GA
         ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
         ga.Termination = new GenerationNumberTermination(NUMBER_OF_GENERATIONS);
         UIController.Instance.NumberGenerations(NUMBER_OF_GENERATIONS);
@@ -104,6 +98,7 @@ public class Depot :  MonoBehaviour
             GetBestRoutes(ga.Population.CurrentGeneration.BestChromosome as VRPChromosome, fitness);
         };
 
+        Debug.Log("Start GA");
         ga.Start();
     }
 
@@ -220,18 +215,24 @@ public class Depot :  MonoBehaviour
         packageMessage.Receiver = "delivery agent:" + agentID.ToString();
         packageMessage.Performative = "send packages";
         //will need to child the package game object to the truck 
-        for(int i = 0; i < route.Count-1; i++) //last point is the depot so will get error if get component drop point
+        for(int i = 0; i < route.Count; i++) 
         {
-            DropPoint dp = route[i].GetComponent<DropPoint>();
-            foreach (GameObject objectPackage in allPackages) 
+            if (route[i].TryGetComponent(out DropPoint dp))
             {
-                Package p = objectPackage.GetComponent<Package>();
-                if (p.Destination = dp) 
+                foreach (GameObject objectPackage in allPackages)
                 {
-                    objectPackage.transform.SetParent(agentObject.transform, false);
-                    allocatedPackages.Add(objectPackage);
-                    packagesAtDepot.Remove(objectPackage);
+                    Package p = objectPackage.GetComponent<Package>();
+                    if (p.Destination = dp)
+                    {
+                        objectPackage.transform.SetParent(agentObject.transform, false);
+                        allocatedPackages.Add(objectPackage);
+                        packagesAtDepot.Remove(objectPackage);
+                    }
                 }
+            }
+            else 
+            {
+                Debug.LogWarning("No Drop Point Here: " + i.ToString());
             }
         }
         packageMessage.GameObjectContent = allocatedPackages;
@@ -241,12 +242,6 @@ public class Depot :  MonoBehaviour
     /// <summary>
     /// Properties
     /// </summary>
-    public Transform Position 
-    {
-        get { return position; }
-        set { position = value; }
-    }
-
     public List<GameObject> DeliveryAgents 
     { 
         get { return deliveryAgents; }
