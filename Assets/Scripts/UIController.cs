@@ -43,7 +43,7 @@ public class UIController : MonoBehaviour
         startTime = Time.time;
         Debug.Log("in recompute.");
         SetDels();
-        /*WorldController.Instance.TryToStart();*/
+        WorldController.Instance.TryToStart();
         Debug.Log("world executed try to start");
         //pauses the simulation, ready to start when user hits the start button
         mode = Modes.twoSpeed;
@@ -59,9 +59,7 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 1;
                     mode = Modes.oneSpeed;
                     startToggle.image.sprite = spriteOneSpeed;
-                    //WorldController.Instance.Resume();
-                    SetDels();
-                    WorldController.Instance.TryToStart();
+                    WorldController.Instance.Resume();
                     break;
                 }
             case Modes.oneSpeed:
@@ -148,7 +146,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         //pause everything, stopped is starting state
-        //Time.timeScale = 0;/*
+        Time.timeScale = 0;/*
         /*WorldController.Instance.Pause();*/
 
         //On click - run corresponding function for each button
@@ -164,7 +162,7 @@ public class UIController : MonoBehaviour
         downDels.GetComponent<Button>().onClick.AddListener(DecrementDeliveries);
         Debug.Log("Button Listeners Added.");
         //compute based on initial/default values
-        //Recompute();
+        Recompute();
         Debug.Log("Recompute Exited.");
     }
 
