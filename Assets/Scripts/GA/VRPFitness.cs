@@ -13,9 +13,9 @@ using UnityEngine.Events;
 /// </summary>
 public class VRPFitness : IFitness
 {
-    private readonly int OVERLOADED_TRUCK_PENALTY = 300;
-    private readonly int EMPTY_TRUCK_PENALTY = 300;
-    private readonly int DISTANCE_PENALTY = 1000;
+    private readonly int OVERLOADED_TRUCK_PENALTY = 10;
+    private readonly int EMPTY_TRUCK_PENALTY = 2;
+    private readonly int DISTANCE_PENALTY = 10;
     private Depot depot;
     
     public VRPFitness(Depot d)
@@ -74,7 +74,7 @@ public class VRPFitness : IFitness
         return totalDistance;      
     }
 
-    //calculate total deman for truck
+    //calculate total demand for truck
     public double CalcTotalDemand(int vehicleID, IChromosome chromosome) 
     {
         float totalDemand = 0.0f;
