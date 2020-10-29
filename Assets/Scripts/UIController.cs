@@ -43,7 +43,7 @@ public class UIController : MonoBehaviour
         startTime = Time.time;
         Debug.Log("in recompute.");
         SetDels();
-        WorldController.Instance.TryToStart();
+        /*WorldController.Instance.TryToStart();*/
         Debug.Log("world executed try to start");
         //pauses the simulation, ready to start when user hits the start button
         mode = Modes.twoSpeed;
@@ -59,7 +59,9 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 1;
                     mode = Modes.oneSpeed;
                     startToggle.image.sprite = spriteOneSpeed;
-                    WorldController.Instance.Resume();
+                    //WorldController.Instance.Resume();
+                    SetDels();
+                    WorldController.Instance.TryToStart();
                     break;
                 }
             case Modes.oneSpeed:
@@ -76,7 +78,7 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 0;
                     mode = Modes.stopped;
                     startToggle.image.sprite = spriteStopped;
-                    WorldController.Instance.Pause();
+                    //WorldController.Instance.Pause();
                     break;
                 }
             default: break;
@@ -146,8 +148,8 @@ public class UIController : MonoBehaviour
     void Start()
     {
         //pause everything, stopped is starting state
-        Time.timeScale = 0;/*
-        WorldController.Instance.Pause();*/
+        //Time.timeScale = 0;/*
+        /*WorldController.Instance.Pause();*/
 
         //On click - run corresponding function for each button
         recompute.GetComponent<Button>().onClick.AddListener(Recompute);
@@ -162,8 +164,8 @@ public class UIController : MonoBehaviour
         downDels.GetComponent<Button>().onClick.AddListener(DecrementDeliveries);
         Debug.Log("Button Listeners Added.");
         //compute based on initial/default values
-        /*Recompute();
-        Debug.Log("Recompute Exited.");*/
+        //Recompute();
+        Debug.Log("Recompute Exited.");
     }
 
     // Update is called once per frame
