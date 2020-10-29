@@ -28,18 +28,28 @@ public class VRPFitness : IFitness
     {
         int numberOfVehicles = depot.DeliveryAgents.Count();
         double fitness = 0.0;
+        double totalDemand = 0.0;
         
         for (int i = 0; i < numberOfVehicles; i++) 
         {
+            float vehicleCapacity = depot.GetVehicleCapacity(i);
             fitness += CalcTotalDistance(i, chromosome) * DISTANCE_PENALTY ;
-            fitness += CalcTotalDemand(i, chromosome);
+            totalDemand = CalcTotalDemand(i, chromosome);
+            if (totalDemand == 0)
+            {
+                fitness += (vehicleCapacity - totalDemand) * EMPTY_TRUCK_PENALTY;
+            }
+            else if (totalDemand > vehicleCapacity)
+            {
+                fitness += (totalDemand - vehicleCapacity) * OVERLOADED_TRUCK_PENALTY;
+            }
         }
 
         if (fitness < 0)
         {
             fitness = 0;
         }
-        Debug.Log("fitness = " + fitness.ToString());
+
         return fitness;
     }
 
@@ -76,16 +86,6 @@ public class VRPFitness : IFitness
             GameObject dropPointObject = depot.DropPoints[p];
             DropPoint dp = dropPointObject.GetComponent<DropPoint>();
             totalDemand += depot.GetDropPointDemand(dp);
-        }
-
-        if (totalDemand == 0) 
-        {
-            return (vehicleCapacity - totalDemand) * EMPTY_TRUCK_PENALTY;
-        }
-
-        if (totalDemand > vehicleCapacity) 
-        {
-            return (totalDemand - vehicleCapacity) * OVERLOADED_TRUCK_PENALTY;
         }
 
         return totalDemand;
