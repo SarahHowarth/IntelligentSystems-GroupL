@@ -146,8 +146,8 @@ public class UIController : MonoBehaviour
     void Start()
     {
         //pause everything, stopped is starting state
-        Time.timeScale = 0;
-        WorldController.Instance.Pause();
+        Time.timeScale = 0;/*
+        WorldController.Instance.Pause();*/
 
         //On click - run corresponding function for each button
         recompute.GetComponent<Button>().onClick.AddListener(Recompute);
@@ -162,8 +162,8 @@ public class UIController : MonoBehaviour
         downDels.GetComponent<Button>().onClick.AddListener(DecrementDeliveries);
         Debug.Log("Button Listeners Added.");
         //compute based on initial/default values
-        Recompute();
-        Debug.Log("Recompute Exited.");
+        /*Recompute();
+        Debug.Log("Recompute Exited.");*/
     }
 
     // Update is called once per frame
