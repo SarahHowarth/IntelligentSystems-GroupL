@@ -115,7 +115,7 @@ public class WorldController : MonoBehaviour
             deliveryVehicles.Add(createdObject);
         }
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 1; i++)
         {
             createdObject = Instantiate(vanPrefab, depot.transform.position, depot.transform.rotation);
             DeliveryAgent createdObjectScript = createdObject.GetComponent<DeliveryAgent>();
@@ -123,7 +123,7 @@ public class WorldController : MonoBehaviour
             deliveryVehicles.Add(createdObject);
         }
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 1; i++)
         {
             createdObject = Instantiate(truckPrefab, depot.transform.position, depot.transform.rotation);
             DeliveryAgent createdObjectScript = createdObject.GetComponent<DeliveryAgent>();
