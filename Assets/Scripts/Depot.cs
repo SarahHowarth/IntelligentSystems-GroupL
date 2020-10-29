@@ -47,7 +47,7 @@ public class Depot :  MonoBehaviour
         vehiclesAtDepot.Clear();
         truckCapacity.Clear();
 
-        //setup dropoints
+        //setup droppoints
         dropPoints = dPoints;
         //setup packages
         allPackages = packages;
@@ -68,7 +68,7 @@ public class Depot :  MonoBehaviour
         var chromosome = new VRPChromosome(dropPoints.Count, deliveryAgents.Count);
         var crossover = new TwoPointCrossover();
         var mutation = new ReverseSequenceMutation();
-        var selection = new RouletteWheelSelection();
+        var selection = new EliteSelection();
         var population = new Population(50, 100, chromosome);
 
         //setup GA

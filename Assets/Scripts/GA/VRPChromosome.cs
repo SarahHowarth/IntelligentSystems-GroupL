@@ -23,7 +23,6 @@ public class VRPChromosome : ChromosomeBase
         {
             ReplaceGene(i, GenerateGene(i));
         }
-
     }
 
     public override Gene GenerateGene(int geneIndex)

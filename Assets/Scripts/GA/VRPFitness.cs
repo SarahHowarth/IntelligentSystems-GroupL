@@ -74,7 +74,7 @@ public class VRPFitness : IFitness
         return totalDistance;      
     }
 
-    //calculate total deman for truck
+    //calculate total demand for truck
     public double CalcTotalDemand(int vehicleID, IChromosome chromosome) 
     {
         float totalDemand = 0.0f;
