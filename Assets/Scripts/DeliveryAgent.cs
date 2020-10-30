@@ -13,10 +13,9 @@ public class DeliveryAgent : MonoBehaviour
     private Depot depot;
     private List<GameObject> route = new List<GameObject>();
     private bool hasRoute = false;
+    int dest = 0;
     private bool paused;
     [SerializeField]private LineRenderer lineRendererComponent = default;
-
-    public float speed = 50.0f;
     public Rigidbody rb;
 
     // Update is called once per frame
@@ -31,7 +30,8 @@ public class DeliveryAgent : MonoBehaviour
             if (hasRoute)
             {
                 if (MoveToNextLocation())
-                    DeliverPackages();
+                    if(packages.Count > 0)
+                        DeliverPackages();
             }
         }
     }
@@ -83,6 +83,7 @@ public class DeliveryAgent : MonoBehaviour
     /// <param name="location"></param>
     private void DeliverPackages()
     {
+        List<GameObject> toRemove = new List<GameObject>();
         foreach (GameObject p in packages)
         {
             DropPoint destination = p.GetComponent<Package>().Destination;
@@ -92,8 +93,13 @@ public class DeliveryAgent : MonoBehaviour
                 //deliver package to destination
                 destination.DeliverPackageHere(p);
                 //remove packpage from agent
-                packages.Remove(p);
+                toRemove.Add(p);
             }
+
+        }
+        foreach (GameObject p in toRemove)
+        {
+            packages.Remove(p);
         }
     }
 
@@ -103,16 +109,24 @@ public class DeliveryAgent : MonoBehaviour
     private bool MoveToNextLocation()
     {
         //return true if destination reached
-        if (Vector3.Distance(route[0].transform.position, transform.position) <= 0.5)
+        if (Vector3.Distance(route[dest].transform.position, transform.position) <= 0.5)
         {
-            return true;
+            if (dest < (route.Count - 1))
+            {
+                dest += 1;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         //difference in target and self positions to get direction of next point
-        Vector3 diff = route[0].transform.position - transform.position;
+        Vector3 diff = route[dest].transform.position - transform.position;
 
         //get direction of next point, normalise and multiply by speed for directed movement vector
-        Vector3 dir = diff.normalized * speed;
+        var speed = 40.0f;
 
         //Set the direction the vehicle faces
         // the second argument, upwards, defaults to Vector3.up
@@ -122,7 +136,7 @@ public class DeliveryAgent : MonoBehaviour
         //may need to be rb.MovePosition(dir); 
         //rb.velocity = dir;
         var change = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, route[0].transform.position, change);
+        transform.position = Vector3.MoveTowards(transform.position, route[dest].transform.position, change);
         return false;       
     }
 
