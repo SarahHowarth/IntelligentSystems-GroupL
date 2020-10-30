@@ -223,7 +223,7 @@ public class Depot :  MonoBehaviour
                 foreach (GameObject objectPackage in allPackages.ToList())
                 {
                     Package p = objectPackage.GetComponent<Package>();
-                    if (p.Destination = dp)
+                    if (p.Destination == dp)
                     {
                         objectPackage.transform.SetParent(agentObject.transform, false);
                         allocatedPackages.Add(objectPackage);

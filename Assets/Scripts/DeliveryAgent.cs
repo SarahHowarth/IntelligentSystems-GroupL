@@ -8,20 +8,24 @@ using UnityEngine;
 public class DeliveryAgent : MonoBehaviour
 {
     private int agentID;
-    private List<GameObject> packages;//List<Package> packages;
+    private List<GameObject> packages = new List<GameObject>();//List<Package> packages;
     private VehicleType type;
     private Depot depot;
-    private List<GameObject> route;
-    private bool hasRoute;
+    private List<GameObject> route = new List<GameObject>();
+    private bool hasRoute = false;
     private bool paused;
     [SerializeField]private LineRenderer lineRendererComponent = default;
 
-    public float speed = 2.0f;
+    public float speed = 50.0f;
     public Rigidbody rb;
 
     // Update is called once per frame
     void Update()
     {
+        if(route.Count == 0)
+        {
+            hasRoute = false;
+        }
         if (!paused)
         {
             if (hasRoute)
@@ -56,6 +60,9 @@ public class DeliveryAgent : MonoBehaviour
     /// <param name="route">the route list of gameobjects</param>
     private void DrawRoute()
     {
+        Color c1 = new Color(UnityEngine.Random.Range(.3F, 1F), UnityEngine.Random.Range(.3F, 1F), UnityEngine.Random.Range(.3F, 1F));
+        lineRendererComponent.startColor = c1;
+        lineRendererComponent.endColor = c1;
         lineRendererComponent.positionCount = route.Count + 1;
         Vector3 depotPosition = new Vector3(0, 0, 0);
 
@@ -96,13 +103,13 @@ public class DeliveryAgent : MonoBehaviour
     private bool MoveToNextLocation()
     {
         //return true if destination reached
-        if (Vector3.Distance(packages[0].transform.position, transform.position) <= 0.5)
+        if (Vector3.Distance(route[0].transform.position, transform.position) <= 0.5)
         {
             return true;
         }
 
         //difference in target and self positions to get direction of next point
-        Vector3 diff = packages[0].transform.position - transform.position;
+        Vector3 diff = route[0].transform.position - transform.position;
 
         //get direction of next point, normalise and multiply by speed for directed movement vector
         Vector3 dir = diff.normalized * speed;
@@ -112,8 +119,10 @@ public class DeliveryAgent : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(diff, Vector3.up);
         transform.rotation = rotation;
 
-        //may need to be rb.vector = dir;
-        rb.MovePosition(dir);
+        //may need to be rb.MovePosition(dir); 
+        //rb.velocity = dir;
+        var change = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, route[0].transform.position, change);
         return false;       
     }
 
@@ -161,7 +170,8 @@ public class DeliveryAgent : MonoBehaviour
 
         //populate route
         route = message.GameObjectContent;
-        //hasRoute = true;
+        Debug.Log("Route list size: " + route.Count.ToString());
+        hasRoute = true;
         DrawRoute();
     }
 
@@ -177,6 +187,9 @@ public class DeliveryAgent : MonoBehaviour
 
         //load packages to DA
         packages = message.GameObjectContent;
+        //for debugging
+        string packDebug = packages.Count.ToString();
+        Debug.Log("Size of packages array" + packDebug);
     }
 
     public bool CheckAddresses(ACLMessage message)
