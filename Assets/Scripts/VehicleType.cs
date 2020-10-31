@@ -7,6 +7,6 @@ public enum VehicleType
 {
     truck = 10,
     van = 8,
-    ute = 5,
-    sedan = 3
+    ute = 6,
+    sedan = 4
 }

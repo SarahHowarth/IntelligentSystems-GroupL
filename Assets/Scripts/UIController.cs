@@ -23,13 +23,14 @@ public class UIController : MonoBehaviour
     public Sprite spriteTwoSpeed;
     //UI buttons
     public Button startToggle;
-    public Button recompute;
+    //public Button recompute;
     /*public Button upDelAgents;
     public Button downDelAgents;*/
 
     public Button upDels;
     public Button downDels;
 
+    private bool simulationStarted = false;
     private float startTime;
     private Modes mode = Modes.stopped; 
     private enum Modes
@@ -59,6 +60,11 @@ public class UIController : MonoBehaviour
                     Time.timeScale = 1;
                     mode = Modes.oneSpeed;
                     startToggle.image.sprite = spriteOneSpeed;
+                    if (!simulationStarted) 
+                    {
+                        WorldController.Instance.TryToStart();
+                        simulationStarted = true;
+                    }
                     WorldController.Instance.Resume();
                     break;
                 }
@@ -103,7 +109,6 @@ public class UIController : MonoBehaviour
         {
             int val = (Int32.Parse(maxParcelsPerPt.text)) + 1;
             maxParcelsPerPt.text = val.ToString();
-
         }
     }
 
@@ -113,7 +118,6 @@ public class UIController : MonoBehaviour
         {
             int val = (Int32.Parse(maxParcelsPerPt.text)) - 1;
             maxParcelsPerPt.text = val.ToString();
-
         }
     }
 
@@ -150,7 +154,7 @@ public class UIController : MonoBehaviour
         /*WorldController.Instance.Pause();*/
 
         //On click - run corresponding function for each button
-        recompute.GetComponent<Button>().onClick.AddListener(Recompute);
+        //recompute.GetComponent<Button>().onClick.AddListener(Recompute);
         startToggle.GetComponent<Button>().onClick.AddListener(ToggleStart);
         
         /* Note - these are here for potential extension
@@ -162,8 +166,14 @@ public class UIController : MonoBehaviour
         downDels.GetComponent<Button>().onClick.AddListener(DecrementDeliveries);
         Debug.Log("Button Listeners Added.");
         //compute based on initial/default values
-        Recompute();
-        Debug.Log("Recompute Exited.");
+        //Recompute();
+        //Debug.Log("Recompute Exited.");
+        //initialise values for UI
+        startTime = Time.time;
+        SetDels();
+        //pauses the simulation, ready to start when user hits the start button
+        mode = Modes.twoSpeed;
+        ToggleStart();
     }
 
     // Update is called once per frame
