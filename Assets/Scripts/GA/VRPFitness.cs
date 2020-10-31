@@ -13,10 +13,10 @@ using UnityEngine.Events;
 /// </summary>
 public class VRPFitness : IFitness
 {
-    private readonly int OVERLOADED_TRUCK_PENALTY = 15; //if a truck is overloaded
-    private readonly int UNUSED_TRUCK_PENALTY = 2; //if a truck has unused capacity
-    private readonly int EMPTY_TRUCK_PENALTY = 5; //if a truck is empty
-    private readonly int DISTANCE_PENALTY = 4;
+    private readonly int OVERLOADED_TRUCK_PENALTY = 200; //if a truck is overloaded
+    private readonly int UNUSED_TRUCK_PENALTY = 20; //if a truck has unused capacity
+    private readonly int EMPTY_TRUCK_PENALTY = 80; //if a truck is empty
+    private readonly int DISTANCE_PENALTY = 40;
     private Depot depot;
     
     public VRPFitness(Depot d)
@@ -38,15 +38,15 @@ public class VRPFitness : IFitness
             totalDemand = CalcTotalDemand(i, chromosome);
             if (totalDemand > vehicleCapacity)
             {
-                fitness += Math.Pow(totalDemand - vehicleCapacity, OVERLOADED_TRUCK_PENALTY);
+                fitness += ((totalDemand - vehicleCapacity) * OVERLOADED_TRUCK_PENALTY);
             }
             else if (totalDemand == 0)
             {
-                fitness += (vehicleCapacity - totalDemand) * EMPTY_TRUCK_PENALTY;
+                fitness += ((vehicleCapacity - totalDemand) * EMPTY_TRUCK_PENALTY);
             }
             else 
             {
-                fitness += (vehicleCapacity - totalDemand) * UNUSED_TRUCK_PENALTY;
+                fitness += ((vehicleCapacity - totalDemand) * UNUSED_TRUCK_PENALTY);
             }
         }
 
@@ -55,8 +55,8 @@ public class VRPFitness : IFitness
             return 0;
         }
 
-        fitness = 1000000 - fitness;
-        return Math.Max(1.0d, fitness);
+        fitness -= 100000;
+        return fitness;
     }
 
     //calculate total distance for truck
