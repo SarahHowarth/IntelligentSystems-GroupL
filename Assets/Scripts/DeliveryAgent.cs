@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class DeliveryAgent : MonoBehaviour
 {
-    private int agentID;
+    [SerializeField]private int agentID;
     private List<GameObject> packages = new List<GameObject>();//List<Package> packages;
     private VehicleType type;
     private Depot depot;

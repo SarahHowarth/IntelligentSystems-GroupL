@@ -32,7 +32,7 @@ public class VRPFitness : IFitness
         
         for (int i = 0; i < numberOfVehicles; i++) 
         {
-            float vehicleCapacity = depot.GetVehicleCapacity(i);
+            double vehicleCapacity = depot.GetVehicleCapacity(i);
             fitness += CalcTotalDistance(i, chromosome) * DISTANCE_PENALTY ;
             totalDemand = CalcTotalDemand(i, chromosome);
             if (totalDemand == 0)
@@ -79,7 +79,6 @@ public class VRPFitness : IFitness
     {
         double totalDemand = 0.0;
         List<int> positions = GetPositions(vehicleID, chromosome);
-        float vehicleCapacity = depot.GetVehicleCapacity(vehicleID);
 
         foreach (int p in positions)
         {
@@ -102,6 +101,7 @@ public class VRPFitness : IFitness
                 positions.Add(i);
             }
         }
+        //order route
 
         return positions;
     }

@@ -17,7 +17,7 @@ public class Depot :  MonoBehaviour
 {
     private List<GameObject> deliveryAgents = new List<GameObject>();
     private List<GameObject> vehiclesAtDepot = new List<GameObject>();
-    private Dictionary<int, float> truckCapacity = new Dictionary<int, float>();
+    private Dictionary<int, double> truckCapacity = new Dictionary<int, double>();
 
     private List<GameObject> allPackages = new List<GameObject>();
     private List<GameObject> packagesAtDepot = new List<GameObject>();
@@ -179,7 +179,7 @@ public class Depot :  MonoBehaviour
         if (message.Performative == "send constraints") 
         {
             int agentID = int.Parse(splitString[1]);
-            float agentCapacity = float.Parse(message.Content);
+            double agentCapacity = double.Parse(message.Content);
             truckCapacity[agentID] = agentCapacity;
             constraintsReceived += 1;
         }
@@ -253,14 +253,14 @@ public class Depot :  MonoBehaviour
         get { return dropPoints; }
     }
 
-    public float GetVehicleCapacity(int ID)
+    public double GetVehicleCapacity(int ID)
     {
         return truckCapacity[ID];
     }
 
-    public float GetDropPointDemand(DropPoint dp)
+    public double GetDropPointDemand(DropPoint dp)
     {
-        float dropPointDemand = 0.0f;
+        double dropPointDemand = 0.0;
 
         foreach (GameObject p in allPackages)
         {

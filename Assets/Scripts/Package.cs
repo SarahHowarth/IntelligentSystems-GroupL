@@ -6,7 +6,7 @@ using UnityEngine;
 public class Package : MonoBehaviour
 {
     private int id;
-    private float weight;
+    [SerializeField]private double weight;
     private DropPoint destination;
 
     //use this for any animation type stuff
@@ -40,7 +40,7 @@ public class Package : MonoBehaviour
         }
     }
 
-    public float Weight
+    public double Weight
     {
         get
         {

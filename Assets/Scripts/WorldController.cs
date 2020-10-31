@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -150,7 +151,7 @@ public class WorldController : MonoBehaviour
     //checks there are enough trucks for the total package weight
     private bool CheckEnoughTrucks() 
     {
-        float totalPackageWeight = 0.0f;
+        double totalPackageWeight = 0.0;
         int totalTruckWeight = 0;
 
         foreach (GameObject p in packages) 
@@ -162,7 +163,7 @@ public class WorldController : MonoBehaviour
             totalTruckWeight += d.GetComponent<DeliveryAgent>().GetWeight;
         }
 
-        if (totalPackageWeight >= totalTruckWeight) 
+        if (totalPackageWeight > totalTruckWeight) 
         { 
             return false; 
         }
@@ -179,7 +180,7 @@ public class WorldController : MonoBehaviour
         foreach (GameObject dp in dropPoints) 
         {
             DropPoint dropPointScript = dp.GetComponent<DropPoint>();
-            int packagesToAssign = Random.Range(numberOfPackagesMin, numberOfPackagesMax + 1); //random.range is not inclusive of max number with integer values
+            int packagesToAssign = UnityEngine.Random.Range(numberOfPackagesMin, numberOfPackagesMax + 1); //random.range is not inclusive of max number with integer values
             for (int i = 0; i <= packagesToAssign; i++) 
             {
                 GameObject newPackage = Instantiate(packagePrefab, depot.transform.position, depot.transform.rotation);
@@ -192,7 +193,8 @@ public class WorldController : MonoBehaviour
         {
             Package packageScript = packages[i].GetComponent<Package>();
             packageScript.ID = i;
-            packageScript.Weight = Random.Range(PACKAGE_WEIGHT_MIN, PACKAGE_WEIGHT_MAX);
+            float randomWeight = UnityEngine.Random.Range(PACKAGE_WEIGHT_MIN, PACKAGE_WEIGHT_MAX);
+            packageScript.Weight = Math.Round(randomWeight, 1);
         }
     }
 
