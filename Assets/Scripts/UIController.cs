@@ -105,7 +105,7 @@ public class UIController : MonoBehaviour
     //increment the maximum parcels for delivery
     void IncrementDeliveries() {
         Debug.Log("Button up called.");
-        if ((maxParcelsPerPt != null) && (maxParcelsPerPt.text != "3"))
+        if ((maxParcelsPerPt != null) && (maxParcelsPerPt.text != "5"))
         {
             int val = (Int32.Parse(maxParcelsPerPt.text)) + 1;
             maxParcelsPerPt.text = val.ToString();

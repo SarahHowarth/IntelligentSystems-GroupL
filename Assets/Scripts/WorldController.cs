@@ -30,7 +30,7 @@ public class WorldController : MonoBehaviour
     private int numberOfPackagesMax = 1;
 
     //data for initialisation
-    private const float PACKAGE_WEIGHT_MIN = 1.5f;
+    private const float PACKAGE_WEIGHT_MIN = 0.5f;
     private const float PACKAGE_WEIGHT_MAX = 5.0f;
 
 
