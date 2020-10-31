@@ -26,7 +26,7 @@ public class Depot :  MonoBehaviour
     private Dictionary<int, List<GameObject>> routes = new Dictionary<int, List<GameObject>>(); 
 
     private GeneticAlgorithm ga;
-    private readonly int NUMBER_OF_GENERATIONS = 500;
+    private readonly int NUMBER_OF_GENERATIONS = 2000;
     private int constraintsReceived;
 
     /// <summary>
@@ -68,8 +68,8 @@ public class Depot :  MonoBehaviour
         var chromosome = new VRPChromosome(dropPoints.Count, deliveryAgents.Count);
         var crossover = new TwoPointCrossover();
         var mutation = new ReverseSequenceMutation();
-        var selection = new EliteSelection();
-        var population = new Population(50, 100, chromosome);
+        var selection = new RouletteWheelSelection();
+        var population = new Population(400, 400, chromosome);
 
         //setup GA
         ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
@@ -80,7 +80,7 @@ public class Depot :  MonoBehaviour
         {
             double totalDemand = 0;
             double totalDistance = 0;
-            Debug.Log($"Generation: {ga.GenerationsNumber} - Fitness: ${ga.BestChromosome.Fitness}");
+            Debug.Log($"Generation: {ga.GenerationsNumber} - Fitness: {ga.BestChromosome.Fitness}");
             var c = ga.Population.CurrentGeneration.BestChromosome as VRPChromosome;
             for (int i = 0; i < deliveryAgents.Count; i++)
             {

@@ -42,6 +42,5 @@ public class VRPChromosome : ChromosomeBase
 
         return clone;
     }
-
     public double Distance { get; internal set; }
 }
