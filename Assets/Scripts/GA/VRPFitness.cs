@@ -13,9 +13,9 @@ using UnityEngine.Events;
 /// </summary>
 public class VRPFitness : IFitness
 {
-    private readonly int OVERLOADED_TRUCK_PENALTY = 10;
-    private readonly int EMPTY_TRUCK_PENALTY = 2;
-    private readonly int DISTANCE_PENALTY = 10;
+    private readonly int OVERLOADED_TRUCK_PENALTY = 15;
+    private readonly int EMPTY_TRUCK_PENALTY = 5;
+    private readonly int DISTANCE_PENALTY = 4;
     private Depot depot;
     
     public VRPFitness(Depot d)
@@ -41,16 +41,16 @@ public class VRPFitness : IFitness
             }
             else if (totalDemand > vehicleCapacity)
             {
-                fitness += (totalDemand - vehicleCapacity) * OVERLOADED_TRUCK_PENALTY;
+                fitness += Math.Pow(totalDemand - vehicleCapacity, OVERLOADED_TRUCK_PENALTY);
             }
         }
 
         if (fitness < 0)
         {
-            fitness = 0;
+            return 0;
         }
-
-        return fitness;
+        fitness = 1000000 - fitness;
+        return Math.Max(1.0, fitness);
     }
 
     //calculate total distance for truck
@@ -77,7 +77,7 @@ public class VRPFitness : IFitness
     //calculate total demand for truck
     public double CalcTotalDemand(int vehicleID, IChromosome chromosome) 
     {
-        float totalDemand = 0.0f;
+        double totalDemand = 0.0;
         List<int> positions = GetPositions(vehicleID, chromosome);
         float vehicleCapacity = depot.GetVehicleCapacity(vehicleID);
 

@@ -26,7 +26,7 @@ public class Depot :  MonoBehaviour
     private Dictionary<int, List<GameObject>> routes = new Dictionary<int, List<GameObject>>(); 
 
     private GeneticAlgorithm ga;
-    private readonly int NUMBER_OF_GENERATIONS = 300;
+    private readonly int NUMBER_OF_GENERATIONS = 500;
     private int constraintsReceived;
 
     /// <summary>
