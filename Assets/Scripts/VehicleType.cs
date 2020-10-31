@@ -5,8 +5,8 @@ using UnityEngine;
 //actual vals assigned to be used as vehicle capacity
 public enum VehicleType
 {
-    truck = 12,
-    van = 8,
-    ute = 5,
-    sedan = 2
+    truck = 20,
+    van = 15,
+    ute = 10,
+    sedan = 5
 }
