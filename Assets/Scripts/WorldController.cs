@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
 public class WorldController : MonoBehaviour
@@ -33,7 +34,8 @@ public class WorldController : MonoBehaviour
     //data for initialisation
     private const float PACKAGE_WEIGHT_MIN = 0.5f;
     private const float PACKAGE_WEIGHT_MAX = 5.0f;
-
+    private int deliveryAgentsFinished = 0;
+    private bool simulationStarted = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -55,6 +57,7 @@ public class WorldController : MonoBehaviour
             return false;
         }
         StartSimulation();
+        simulationStarted = true;
         return true;
     }
 
@@ -73,6 +76,23 @@ public class WorldController : MonoBehaviour
         for (int i = 0; i < deliveryVehicles.Count; i++)
         {
             deliveryVehicles[i].GetComponent<DeliveryAgent>().Resume();
+        }
+    }
+
+    public void EndSimulation() 
+    {
+        deliveryAgentsFinished += 1;
+        
+        if (deliveryAgentsFinished == deliveryVehicles.Count) 
+        {
+            if (SceneManager.GetActiveScene().name == "MAIN")
+            {
+                SceneManager.LoadScene("MAIN2");
+            }
+            else 
+            { 
+                SceneManager.LoadScene("MAIN");
+            } 
         }
     }
 

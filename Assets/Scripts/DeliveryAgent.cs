@@ -20,6 +20,7 @@ public class DeliveryAgent : MonoBehaviour
         if(route.Count == 0)
         {
             hasRoute = false;
+            WorldController.Instance.EndSimulation();//will only end if it has been run once in world controller
         }
         if (!paused)
         {
