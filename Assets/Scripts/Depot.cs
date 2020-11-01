@@ -26,7 +26,7 @@ public class Depot :  MonoBehaviour
     private Dictionary<int, List<GameObject>> routes = new Dictionary<int, List<GameObject>>(); 
 
     private GeneticAlgorithm ga;
-    private readonly int NUMBER_OF_GENERATIONS = 2000;
+    private readonly int NUMBER_OF_GENERATIONS = 200;
     private int constraintsReceived;
 
     /// <summary>
@@ -69,7 +69,7 @@ public class Depot :  MonoBehaviour
         var crossover = new TwoPointCrossover();
         var mutation = new ReverseSequenceMutation();
         var selection = new RouletteWheelSelection();
-        var population = new Population(400, 400, chromosome);
+        var population = new Population(150, 200, chromosome);
 
         //setup GA
         ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
