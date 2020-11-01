@@ -128,8 +128,8 @@ public class UIController : MonoBehaviour
 
     public void SetFitness(double totalDemand, double totalDistance)
     {
-        fitnessDistance.text = totalDistance.ToString();
-        fitnessDemand.text = totalDemand.ToString();
+        fitnessDistance.text = totalDistance.ToString("f2");
+        fitnessDemand.text = totalDemand.ToString("f2");
     }
 
     public void NumberGenerations(int gens)
