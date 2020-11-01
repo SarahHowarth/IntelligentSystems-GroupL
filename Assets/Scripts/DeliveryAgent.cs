@@ -17,10 +17,9 @@ public class DeliveryAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(route.Count == 0)
+        if (route.Count == 0)
         {
             hasRoute = false;
-            WorldController.Instance.EndSimulation();//will only end if it has been run once in world controller
         }
         if (!paused)
         {
@@ -92,7 +91,6 @@ public class DeliveryAgent : MonoBehaviour
                 //remove packpage from agent
                 toRemove.Add(p);
             }
-
         }
         foreach (GameObject p in toRemove)
         {
@@ -112,6 +110,12 @@ public class DeliveryAgent : MonoBehaviour
             {
                 dest += 1;
                 return true;
+            }
+            else if (dest == route.Count - 1) 
+            {
+                WorldController.Instance.EndSimulation();
+                Destroy(gameObject);
+                return false;
             }
             else
             {

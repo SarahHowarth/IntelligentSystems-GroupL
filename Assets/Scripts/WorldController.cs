@@ -35,7 +35,7 @@ public class WorldController : MonoBehaviour
     private const float PACKAGE_WEIGHT_MIN = 0.5f;
     private const float PACKAGE_WEIGHT_MAX = 5.0f;
     private int deliveryAgentsFinished = 0;
-    private bool simulationStarted = false;
+    private int numberOfDeliveryAgents = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,7 +57,6 @@ public class WorldController : MonoBehaviour
             return false;
         }
         StartSimulation();
-        simulationStarted = true;
         return true;
     }
 
@@ -83,7 +82,7 @@ public class WorldController : MonoBehaviour
     {
         deliveryAgentsFinished += 1;
         
-        if (deliveryAgentsFinished == deliveryVehicles.Count) 
+        if (deliveryAgentsFinished == numberOfDeliveryAgents) 
         {
             if (SceneManager.GetActiveScene().name == "MAIN")
             {
@@ -107,6 +106,7 @@ public class WorldController : MonoBehaviour
         //setup delivery agents
         SetupPackages();
         SetupVehicles();
+        numberOfDeliveryAgents = deliveryVehicles.Count;
         //intialise master routing agent with the private ai data so they can start
         Depot depotScript = depot.GetComponent<Depot>();
         depotScript.Setup(dropPoints, deliveryVehicles, packages);
